@@ -1,0 +1,27 @@
+{
+  "name": "EarlyChildhoodApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "date-diff": "^0.2.0",
+    "react": "16.3.1",
+    "react-native": "0.55.4",
+    "react-native-calendars": "^1.19.3",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-progress-bar-animated": "^1.0.6",
+    "react-navigation": "^2.5.5"
+  },
+  "devDependencies": {
+    "babel-jest": "23.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "23.2.0",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
