@@ -1,7 +1,7 @@
 # ChildhoodApp
 
 Mac/ios:
-1. Install homebrew then node and watchmen
+1. Install homebrew then node and watchmen -- see here https://facebook.github.io/react-native/docs/getting-started.html under building projects with native code
 
 2. Install cli if you want -    npm install -g react-native-cli
 
