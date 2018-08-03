@@ -9,13 +9,17 @@ export default class homepage extends Component{
     
     constructor(props){
         super(props);
+
+        this.state = {
+            userId: this.props.navigation.getParam('UserData', 'NO-Data')
+        };
     }
     
   render() {
     return (
     <View>
         <Header title='Settings'/>
-        <Navigation nav={this.props.navigation} />
+        <Navigation nav={this.props.navigation} user={this.state.userId} />
     </View>
     );
   }

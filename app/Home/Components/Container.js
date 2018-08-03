@@ -17,7 +17,15 @@ export default class header extends Component{
 
     finishProgress = () =>
     {
-        {/* send updated progress to database -- Changed client sided here*/}
+        fetch('http://localhost:3000/api/complete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.props.name),
+            });
+             
+
         this.setState({ 
             progress: 100
         });
@@ -74,7 +82,7 @@ export default class header extends Component{
     return (
         <View style={styles.container}>
             <Text style={styles.name}> {this.props.name.Name} </Text>
-            <Text style={styles.date}> {this.state.stringSDate}/{this.state.stringSMonth+1} - {this.state.stringEDate}/{this.state.stringEMonth+1} </Text>
+            <Text style={styles.date}> {this.state.stringSDate}/{this.state.stringSMonth+1}/{this.props.name.SDate.getFullYear()} - {this.state.stringEDate}/{this.state.stringEMonth+1}/{this.props.name.EDate.getFullYear()} </Text>
             <View style={{paddingLeft: 17}}>
                 <ProgressBarAnimated width={barWidth} value={this.state.progress} backgroundColorOnComplete="#6CC644" />
             </View>

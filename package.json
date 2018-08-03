@@ -7,13 +7,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "date-diff": "^0.2.0",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-native-calendars": "^1.19.3",
     "react-native-datepicker": "^1.7.2",
     "react-native-progress-bar-animated": "^1.0.6",
-    "react-navigation": "^2.5.5"
+    "react-navigation": "^2.5.5",
+    "react-spinners": "^0.3.3",
+    "request": "^2.87.0"
   },
   "devDependencies": {
     "babel-jest": "23.2.0",

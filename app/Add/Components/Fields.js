@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, TextInput, Text, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, TextInput, Text} from 'react-native';
 
 import Picker from './Picker';
 
 export default class inputfields extends Component {
-    
-    showMilestones = () =>
-    {
-       this.setState({
-        clicked: true
-        });
-    }
+    constructor(props){
+        super(props);
+
+        this.state = {
+            milestone:''
+        }
+      }
 
   render() {
     return (
         <View style={styles.viewContainer}> 
             <View style={styles.dateBoxes}>
-                <Text style={styles.text}> Milestone: </Text>>
-                <TextInput style={styles.box} />
+                <Text style={styles.text} > Milestone: </Text>>
+                <TextInput style={styles.box} onChangeText={(milestone) => this.setState({milestone})} value={this.state.milestone}/>
             </View>
-            <Picker />
-            <TouchableOpacity style={styles.inputSubmit}> 
-                <Image source={require('../../Images/Calender/Checkbox.png')} />
-            </TouchableOpacity>
+            <Picker milestone={this.state.milestone} user={this.props.user}/>
+            
         </View>
     );
   }
@@ -61,15 +59,5 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: '#CDCDCD',
         borderRadius: 5
-    },
-    inputSubmit: 
-    {
-        height: 35, 
-        width: 250,
-        borderColor: 'gray', 
-        backgroundColor: '#005691',
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
     }
 });

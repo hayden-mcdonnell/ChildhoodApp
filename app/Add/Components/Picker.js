@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 
 import DatePicker from 'react-native-datepicker';
 
@@ -8,9 +8,21 @@ export default class picker extends Component{
     super(props)
     this.state = {
         sDate:'',
-        eDate:''       
+        eDate:''
     }
   }
+
+  uploadData = () =>{
+      var data = {email: this.props.user.email ,milestoneName: this.props.milestone, startDate: this.state.sDate, endDate: this.state.eDate}
+      
+      fetch('http://localhost:3000/api/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        });
+}
   render() {
     return (
     <View>
@@ -18,7 +30,7 @@ export default class picker extends Component{
               <Text style={styles.text}> Start Date: </Text>
               <DatePicker
                 style={{width: 200}}
-                date={this.state.sdate}
+                date={this.state.sDate}
                 mode="date"
                 placeholder="select date"
                 format="DD-MM-YYYY"
@@ -42,7 +54,7 @@ export default class picker extends Component{
                         color: 'red'
                     }
                 }}
-                onDateChange={(date) => {this.setState({sdate: date})}}
+                onDateChange={(date) => {this.setState({sDate: date})}}
               />
         </View>
 
@@ -77,6 +89,10 @@ export default class picker extends Component{
                 onDateChange={(date) => {this.setState({eDate: date})}}
               />
         </View>
+
+        <TouchableOpacity style={styles.inputSubmit} onPress={this.uploadData}> 
+            <Image source={require('../../Images/Calender/Checkbox.png')} />
+        </TouchableOpacity>
     </View>
     )
   }
@@ -93,5 +109,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20
+    },
+    inputSubmit: 
+    {
+        height: 35, 
+        width: 250,
+        borderColor: 'gray', 
+        backgroundColor: '#005691',
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

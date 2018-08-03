@@ -10,9 +10,9 @@ export default class homepage extends Component {
     super(props);
 }
        
-    login = () =>
+    login = (user) =>
     {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Home', {UserData: user});
     }
 
   render() {

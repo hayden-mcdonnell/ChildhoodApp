@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ScrollView, View, FlatList} from 'react-native';
+import {ScrollView, View, FlatList, Text} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
@@ -8,11 +8,60 @@ import Container from './Components/Container';
 export default class homepage extends Component{
     constructor(props){
         super(props);
+
         this.state = {
-            dataSource: [{key: '1', Name: 'Crawling', SDate: new Date(2018, 0, 1), EDate: new Date(2018, 11, 29)}, {key: '2', Name: 'Walking', SDate: new Date(2018, 3, 3), EDate: new Date(2018, 5, 27)}, {key: '3', Name: 'Walking', SDate: new Date(2018, 3, 5), EDate: new Date(2018, 6, 1)}]
+            userId: this.props.navigation.getParam('UserData', 'NO-Data'),
+            dataSource: [],
+            noMilestones: false
         };
+            
     }
     
+    componentDidMount() {
+        fetch('http://localhost:3000/api/milestones', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state.userId),
+            }).then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.length === 0){
+                    this.setState({
+                        noMilestones: true
+                    });
+                }
+                else
+                {
+                    var firstSDate = this.getDate(responseJson[0].startDate);
+                    var firstEDate = this.getDate(responseJson[0].endDate);
+
+                    this.setState({
+                        dataSource: [{key: '1', Name: responseJson[0].milestoneName , SDate: firstSDate, EDate: firstEDate, id: responseJson[0]._id}],
+                    })
+                
+                    for (i = 1; i < responseJson.length; i++)
+                    {
+                        var sDate = this.getDate(responseJson[i].startDate);
+                        var eDate = this.getDate(responseJson[i].endDate);
+                        var key = String(i+1);
+                        
+                        this.state.dataSource.push({key: key, Name: responseJson[i].milestoneName, SDate: sDate, EDate: eDate,  id: responseJson[i]._id});
+                    }       
+                }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+    }
+
+    //Transforms date from string format into date formate. Used for progress bar
+    getDate(date){
+        var realDate = date.split("-");
+        var newdate = new Date(parseInt(realDate[2]), parseInt(realDate[1]-1), parseInt(realDate[0]));
+        return newdate;
+    }
+
   render() {
     return (
     <View style={{flex: 1}}>
@@ -25,7 +74,7 @@ export default class homepage extends Component{
             <View style={{height: 30}} />
         </ScrollView>
         <View>
-            <Navigation nav={this.props.navigation} />
+            <Navigation nav={this.props.navigation} user={this.state.userId}/>
         </View>
     </View>
     );

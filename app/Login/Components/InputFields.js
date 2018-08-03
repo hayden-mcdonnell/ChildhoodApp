@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, TextInput, Text, Button} from 'react-native';
 
+
 export default class inputfields extends Component{
     
     constructor(props) 
@@ -8,25 +9,58 @@ export default class inputfields extends Component{
         super(props);
         this.state = 
         { 
-                email: '',
-                password: ''
+            email: 'hello@igt.com',
+            password: 'Dave',
+            error: false,
+            loading: false
         };
     }
     
     authenticate = () => {
-        this.props.login(); 
-}
+        var userName = this.state.email;
+        var passWord = this.state.password;
+
+        var payload = {userName, passWord};
+        
+       
+        fetch('http://localhost:3000/api/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        }).then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson.Confirmation == "Success")
+          {
+              this.props.login(responseJson.Data);
+            }
+          else{
+            this.setState({
+                error: true
+                });
+            }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+
         
   render() {
     return (
         <View style={styles.viewContainer}>
-            <TextInput style={styles.inputContainers} onChangeText={(email) => this.setState({email})} value={this.state.email} clearTextOnFocus={true} keyboardType={'email-address'} placeholder={'Email'} placeholderTextColor={'#005691'} autoCapitalize={'none'}/>
+            {this.state.error ? <Text style={{color: 'red'}}> Invalid username or password </Text> : null}  
 
-            <TextInput style={styles.inputContainers} onChangeText={(password) => this.setState({password})} value={this.state.password} clearTextOnFocus={true} keyboardType={'email-address'} placeholder={'Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+            <TextInput style={styles.inputContainers} onChangeText={(email) => this.setState({email})} value={this.state.email} keyboardType={'email-address'} placeholder={'Email'} placeholderTextColor={'#005691'} autoCapitalize={'none'}/>
+
+            <TextInput style={styles.inputContainers} onChangeText={(password) => this.setState({password})} value={this.state.password} keyboardType={'email-address'} placeholder={'Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
 
             <Text style={{color: '#005691', marginBottom: 20}}> Forgot your password? </Text>
 
-            <Button onPress={this.authenticate} title={'Submit'} color={'#005691'}/>    
+            <Button onPress={this.authenticate} title={'Submit'} color={'#005691'}/>
+            
         </View>
     );
   }

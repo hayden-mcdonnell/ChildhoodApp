@@ -10,6 +10,10 @@ import Fields from './Components/Fields';
 export default class homepage extends Component {
     constructor(props){
         super(props);
+
+        this.state = {
+            userId: this.props.navigation.getParam('UserData', 'NO-Data'),
+        };
     }
     
   render() {
@@ -18,9 +22,9 @@ export default class homepage extends Component {
         <View>
             <Header title='Add a Goal'/>
             <Image />
-            <Fields />
+            <Fields user={this.state.userId}/>
         </View>
-        <Navigation nav={this.props.navigation} />
+        <Navigation nav={this.props.navigation} user={this.state.userId}/>
     </View>
     );
   }

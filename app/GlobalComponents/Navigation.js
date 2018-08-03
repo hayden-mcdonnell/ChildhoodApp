@@ -13,27 +13,27 @@ export default class homepage extends Component{
         {
             if (data === "Calender")
             {
-                this.props.nav.navigate('Calender');
+                this.props.nav.navigate('Calender', {UserData: this.props.user});
             }
 
             else if (data === "History")
             {
-                this.props.nav.navigate('History');
+                this.props.nav.navigate('History', {UserData: this.props.user});
             }
 
             else if (data === "Home")
             {
-                 this.props.nav.navigate('Home');
+                 this.props.nav.navigate('Home', {UserData: this.props.user});
             }
 
             else if (data === "Add")
             {
-                this.props.nav.navigate('Add');
+                this.props.nav.navigate('Add', {UserData: this.props.user});
             }
 
             else if (data === "Settings")
             {
-                 this.props.nav.navigate('Settings');
+                 this.props.nav.navigate('Settings', {UserData: this.props.user});
             }
 
         }
