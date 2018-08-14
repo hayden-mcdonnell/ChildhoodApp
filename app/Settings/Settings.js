@@ -23,8 +23,12 @@ export default class homepage extends Component{
                 <View>
                 <Header title='Settings'/>
                 </View>
+                
+               <Options />
+                
                 <Navigation nav={this.props.navigation} user={this.state.userId}/>
                 </View>
                 );
     }
 }
+
