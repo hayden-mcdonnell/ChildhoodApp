@@ -9,8 +9,8 @@ export default class inputfields extends Component{
         super(props);
         this.state = 
         { 
-            email: 'hello@igt.com',
-            password: 'Dave',
+            email: 'testAccount@gmail.com',
+            password: 'password123',
             error: false,
             loading: false
         };
