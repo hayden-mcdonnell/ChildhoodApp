@@ -8,14 +8,12 @@ export default class Options extends Component{
             <View style={styles.container}>
             <FlatList
             data={[
-                   {key: 'Devin'},
-                   {key: 'Jackson'},
-                   {key: 'James'},
-                   {key: 'Joel'},
-                   {key: 'John'},
-                   {key: 'Jillian'},
-                   {key: 'Jimmy'},
-                   {key: 'Julie'},
+                   {key: 'Change Password'},
+                   {key: 'Terms'},
+                   {key: 'Contact Us'},
+                   {key: 'Photos Sent'},
+                   {key: 'Videos Sent'},
+                   {key: 'Settings'},
                    ]}
             renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
             />
@@ -30,14 +28,16 @@ const styles = StyleSheet.create({
                                  
                                  container:
                                  {
-                                 flex: 1,
-                                 paddingTop: 100
+                                 flex: 4, // Flex here controlls how far down it sits, 4 is nice
+                                 paddingTop: 20 // How far it sits from top of banner
                                  },
                                  item:
                                  {
-                                 padding: 5,
+                                 padding: 30,
                                  color: '#005691',
                                  fontSize: 18,
+                                 fontWeight: 'bold',
                                  height: 44,
+                                 backgroundColor: '#CDCDCD',
                                  },
-                                 })
+            })

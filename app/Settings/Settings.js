@@ -5,6 +5,7 @@ import Header from '../GlobalComponents/Header';
 import NavBar from '../GlobalComponents/NavBar';
 import Navigation from '../GlobalComponents/Navigation';
 import Options from './Components/OptionsList'; //Settings option view will go in here
+import Banner from './Components/Banner';
 
 export default class homepage extends Component{
     
@@ -19,16 +20,27 @@ export default class homepage extends Component{
     render() {
         
         return (
-                <View style={{flex: 1, justifyContent: 'space-between'}}>
+                <View style={styles.Main}> //Flex needs to be 1 here to set menu bar to bottom
                 <View>
                 <Header title='Settings'/>
                 </View>
-                
+               
+               <Banner />
                <Options />
+                
                 
                 <Navigation nav={this.props.navigation} user={this.state.userId}/>
                 </View>
                 );
     }
 }
+const styles = StyleSheet.create({
 
+                                 Main:
+                                 {flex: 1,
+                                 justifyContent: 'space-between',
+                                 backgroundColor: '#CDCDCD'
+                                 },
+
+
+})
