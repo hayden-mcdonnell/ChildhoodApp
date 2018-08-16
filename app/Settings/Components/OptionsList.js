@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AppRegistry, FlatList, StyleSheet, View, Text} from 'react-native';
+import {AppRegistry, FlatList, StyleSheet, View, Text, Image} from 'react-native';
 
 export default class Options extends Component{
   render() {
@@ -8,14 +8,14 @@ export default class Options extends Component{
             <View style={styles.container}>
             <FlatList
             data={[
-                   {key: 'Change Password'},
+                   {key: 'Change Password' },
                    {key: 'Terms'},
                    {key: 'Contact Us'},
                    {key: 'Photos Sent'},
                    {key: 'Videos Sent'},
                    {key: 'Settings'},
                    ]}
-            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+            renderItem={({item}) => <Text style={styles.item}>{item.key}     <Image style={styles.image} source={require('../../Images/Settings/Arrow.png')} /></Text>} //Image goes in after key item is rendered
             />
             </View>
     );
@@ -33,11 +33,16 @@ const styles = StyleSheet.create({
                                  },
                                  item:
                                  {
-                                 padding: 30,
+                                 margin: 10, //Padding doesnt play nice with images
                                  color: '#005691',
                                  fontSize: 18,
-                                 fontWeight: 'bold',
+                                 fontWeight: '800', //Changed this so it looks more like the mock ups
                                  height: 44,
                                  backgroundColor: '#CDCDCD',
+                                 },
+                                 
+                                 image:
+                                 {
+                                 
                                  },
             })
