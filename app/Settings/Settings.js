@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {View} from 'react-native';
+import {StyleSheet, Text, View,} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
 import NavBar from '../GlobalComponents/NavBar';
 import Navigation from '../GlobalComponents/Navigation';
+import Options from './Components/OptionsList'; //Settings option view will go in here
 
 export default class homepage extends Component{
     
@@ -15,12 +16,19 @@ export default class homepage extends Component{
         };
     }
     
-  render() {
-    return (
-    <View>
-        <Header title='Settings'/>
-        <Navigation nav={this.props.navigation} user={this.state.userId} />
-    </View>
-    );
-  }
+    render() {
+        
+        return (
+                <View style={{flex: 1, justifyContent: 'space-between'}}>
+                <View>
+                <Header title='Settings'/>
+                </View>
+                
+               <Options />
+                
+                <Navigation nav={this.props.navigation} user={this.state.userId}/>
+                </View>
+                );
+    }
 }
+
