@@ -26,7 +26,7 @@ export default class homepage extends Component{
                 </View>
                
                <Banner />
-               <Options />
+               <Options user={this.state.userId}/>
                 
                 
                 <Navigation nav={this.props.navigation} user={this.state.userId}/>

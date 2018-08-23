@@ -15,14 +15,15 @@ export default class header extends Component{
     stringEMonth: this.props.name.EDate.getMonth()
     };
 
-    finishProgress = () =>
+    finishProgress = (x) =>
     {
+        this.props.name[5] = x;
         fetch('http://localhost:3000/api/complete', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(this.props.name),
+            body: JSON.stringify(this.props.name), x
             });
              
 

@@ -5,7 +5,10 @@ export default class navBar extends Component{
     
     finish = () =>
     {
-        this.props.finishPro();
+        var today = new Date();
+        var fullDate = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear();
+        
+        this.props.finishPro(fullDate);
     }   
 
     changeTime = () =>

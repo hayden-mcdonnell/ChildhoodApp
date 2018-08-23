@@ -20,7 +20,7 @@ export default class homepage extends Component {
     return (
     <View style={{flex: 1, justifyContent: 'space-between'}}>
         <View>
-            <Header title='Add a Goal'/>
+            <Header title='Add a Milestone'/>
             <Image />
             <Fields user={this.state.userId}/>
         </View>
