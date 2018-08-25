@@ -80,7 +80,7 @@ componentDidMount()
 
     return (
         <View>
-              {this.state.isLoading ? null : <Calendar monthFormat={'MMMM yyyy'} hideExtraDays={true} firstDay={1} markedDates={this.state.markedDates}  onDayPress={(day) => {this.checkDate(day)}}/>}
+              {this.state.isLoading ? null : <Calendar monthFormat={'MMMM yyyy'} hideExtraDays={true} firstDay={1} markedDates={this.state.markedDates}  hideDayNames={true} onDayPress={(day) => {this.checkDate(day)}}/>}
               {this.state.dateSelect ? <Container name={this.state.selectedDate} /> : null}
         </View>
       

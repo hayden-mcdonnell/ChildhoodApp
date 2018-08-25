@@ -4,7 +4,6 @@ import {View, ScrollView, FlatList} from 'react-native';
 import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
 import Calender from './Components/Calender';
-import Container from './Components/Container';
 
 export default class homepage extends Component {
     constructor(props){
@@ -16,11 +15,11 @@ export default class homepage extends Component {
     
   render() {
     return (
-    <View style={{flex: 1}}>
-        <ScrollView>
+    <View style={{flex: 1, justifyContent: 'space-between'}}>
+        <View>
             <Header title='Calender'/>
             <Calender user={this.state.userId}/>
-        </ScrollView>
+        </View>
         <View>
             <Navigation nav={this.props.navigation} user={this.state.userId}/>
         </View>
