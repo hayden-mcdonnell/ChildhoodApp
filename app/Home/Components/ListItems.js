@@ -6,7 +6,22 @@ export default class navBar extends Component{
     finish = () =>
     {
         var today = new Date();
-        var fullDate = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear();
+        
+        var month = parseInt(today.getMonth()) + 1;
+        var day = today.getDate();
+
+        if (month < 10)
+        {
+            month = "0" + String(month);
+        }
+
+        if (day < 10)
+        {
+           day = "0" + String(day);
+        }
+       
+
+        var fullDate = day + "-" + month + "-" + today.getFullYear();
         
         this.props.finishPro(fullDate);
     }   
