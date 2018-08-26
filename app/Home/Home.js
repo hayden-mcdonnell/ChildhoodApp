@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ScrollView, View, FlatList, Text} from 'react-native';
+import {ScrollView, View, FlatList, ActivityIndicator} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
@@ -12,7 +12,8 @@ export default class homepage extends Component{
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'),
             dataSource: [],
-            noMilestones: false
+            noMilestones: false,
+            isLoading: true,
         };
             
     }
@@ -33,14 +34,7 @@ export default class homepage extends Component{
                 }
                 else
                 {
-                    var firstSDate = this.getDate(responseJson[0].startDate);
-                    var firstEDate = this.getDate(responseJson[0].endDate);
-
-                    this.setState({
-                        dataSource: [{key: '1', Name: responseJson[0].milestoneName , SDate: firstSDate, EDate: firstEDate, id: responseJson[0]._id}],
-                    })
-                
-                    for (i = 1; i < responseJson.length; i++)
+                    for (i = 0; i < responseJson.length; i++)
                     {
                         var sDate = this.getDate(responseJson[i].startDate);
                         var eDate = this.getDate(responseJson[i].endDate);
@@ -49,6 +43,9 @@ export default class homepage extends Component{
                         this.state.dataSource.push({key: key, Name: responseJson[i].milestoneName, SDate: sDate, EDate: eDate,  id: responseJson[i]._id});
                     }       
                 }
+                this.setState({
+                    isLoading: false
+                });
             })
             .catch((error) => {
               console.error(error);
@@ -67,10 +64,7 @@ export default class homepage extends Component{
     <View style={{flex: 1}}>
         <ScrollView>
             <Header title='Home'/>
-            <FlatList  
-               data={this.state.dataSource} 
-               renderItem={({item}) => <Container name={item} />}
-            />
+                {this.state.isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : <FlatList data={this.state.dataSource} renderItem={({item}) => <Container name={item} />}/>}
             <View style={{height: 30}} />
         </ScrollView>
         <View>

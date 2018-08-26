@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View,} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
-import NavBar from '../GlobalComponents/NavBar';
 import Navigation from '../GlobalComponents/Navigation';
 import Options from './Components/OptionsList'; //Settings option view will go in here
 import Banner from './Components/Banner';
