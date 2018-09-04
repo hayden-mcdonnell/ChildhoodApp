@@ -74,12 +74,20 @@ export default class Options extends Component{
     let content;
       if(this.state.linkClicked == 'Change Password')
       {
-       content = <View>
+          
+          content = <View  style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Please confirm your current password before entering a new password. </Text>
        <TextInput style={styles.inputContainers} onChangeText={(currentPw) => this.setState({currentPw})} value={this.state.currentPw} keyboardType={'email-address'} placeholder={'Current Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
        <TextInput style={styles.inputContainers} onChangeText={(newPass) => this.setState({newPass})} value={this.state.newPass} keyboardType={'email-address'} placeholder={'New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
        <TextInput style={styles.inputContainers} onChangeText={(confirmnewPass) => this.setState({confirmnewPass})} value={this.state.confirmnewPass} keyboardType={'email-address'} placeholder={'Confirm New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
-       <Button onPress={this.updatePW} title={'Submit'} color={'#005691'}/>
-       <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          
+          <TouchableOpacity onPress={this.updatePW}>
+          <Image source={require('../../Images/Settings/changePassword.png')} />
+          </TouchableOpacity>
+       
+          //This is how we should probably do buttons, makes x compatability easuer :)
+          
+          <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
        {this.state.dontMatch ? <Text style={{color: 'red'}}> Passwords dont match. </Text> : null} 
        {this.state.passIncorrect ? <Text style={{color: 'red'}}> Current password is incorrect. </Text> : null} 
      </View>
@@ -87,8 +95,11 @@ export default class Options extends Component{
 
       else if (this.state.linkClicked == 'Terms')
       {
-        content = <View>
-        <Text>Terms go here</Text>
+          content = <View style ={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>
+          Terms go here
+          
+        </Text>
          <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
          </View>
       }
@@ -160,6 +171,27 @@ const styles = StyleSheet.create({
       flex: 4, // Flex here controlls how far down it sits, 4 is nice
       paddingTop: 20 // How far it sits from top of banner
     },
+    
+    popUpContainer:
+    {
+      flex: 4, // Flex here controlls how far down it sits, 4 is nice
+      paddingTop: 20, // How far it sits from top of banner
+      backgroundColor: '#F2F2F2',
+      alignItems: 'center',
+      justifyContent: 'center'
+      
+    },
+      
+    popUpContainerText:
+    {
+    color: '#005691',
+    fontSize: 18,
+    fontWeight: '400',
+    margin: 10,
+    textAlign: 'center',
+                                 marginBottom: 100
+    },
+                        
     item:
     {
       margin: 10, //Padding doesnt play nice with images
@@ -173,11 +205,19 @@ const styles = StyleSheet.create({
     {
         height: 50, 
         width: 300,
-        borderColor: 'gray', 
+        borderColor: '#CDCDCD',
         backgroundColor: '#CDCDCD',
         borderRadius: 50,
         textAlign: 'center',
         color: '#005691',
-        marginBottom: 20
+        marginBottom: 20,
+    
+    },
+                                 
+                                 
+    Button:
+    {
+                                 backgroundColor: '#005691'
     }
+                                 
 })
