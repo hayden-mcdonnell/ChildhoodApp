@@ -77,17 +77,22 @@ export default class Options extends Component{
           
           content = <View  style={styles.popUpContainer}>
           <Text style={styles.popUpContainerText}>Please confirm your current password before entering a new password. </Text>
-       <TextInput style={styles.inputContainers} onChangeText={(currentPw) => this.setState({currentPw})} value={this.state.currentPw} keyboardType={'email-address'} placeholder={'Current Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
-       <TextInput style={styles.inputContainers} onChangeText={(newPass) => this.setState({newPass})} value={this.state.newPass} keyboardType={'email-address'} placeholder={'New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
-       <TextInput style={styles.inputContainers} onChangeText={(confirmnewPass) => this.setState({confirmnewPass})} value={this.state.confirmnewPass} keyboardType={'email-address'} placeholder={'Confirm New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(currentPw) => this.setState({currentPw})} value={this.state.currentPw} keyboardType={'email-address'} placeholder={'Current Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(newPass) => this.setState({newPass})} value={this.state.newPass} keyboardType={'email-address'} placeholder={'New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(confirmnewPass) => this.setState({confirmnewPass})} value={this.state.confirmnewPass} keyboardType={'email-address'} placeholder={'Confirm New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
           
           <TouchableOpacity onPress={this.updatePW}>
           <Image source={require('../../Images/Settings/changePassword.png')} />
           </TouchableOpacity>
        
           //This is how we should probably do buttons, makes x compatability easuer :)
+          <View>
+          <Text> </Text> //Dirty way to push x down, should probably find a better way
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
           
-          <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
        {this.state.dontMatch ? <Text style={{color: 'red'}}> Passwords dont match. </Text> : null} 
        {this.state.passIncorrect ? <Text style={{color: 'red'}}> Current password is incorrect. </Text> : null} 
      </View>
@@ -215,9 +220,6 @@ const styles = StyleSheet.create({
     },
                                  
                                  
-    Button:
-    {
-                                 backgroundColor: '#005691'
-    }
+   
                                  
 })
