@@ -102,42 +102,72 @@ export default class Options extends Component{
       {
           content = <View style ={styles.popUpContainer}>
           <Text style={styles.popUpContainerText}>
-          Terms go here
+          By using this application you are agreeing to allow data
+          that you enter to be collected by the party supplying the application.
+          Any data that is lost will not be the responsibilty of the supplying party.
+          Data will not be released by the supplying company under any circumstances
+          unless explicitly stated. Please contact the head researcher if you have any questions
+              or concerns.
           
         </Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Contact Us')
       {
-        content = <View>
-        <Text>Contact us go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Contact us go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Photos Sent')
       {
-        content = <View>
-        <Text>Photos go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}t>Photos go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Videos Sent')
       {
-        content = <View>
-        <Text>Videos go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Videos go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Settings')
       {
-        content = <View>
-        <Text>Settings go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Settings go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
