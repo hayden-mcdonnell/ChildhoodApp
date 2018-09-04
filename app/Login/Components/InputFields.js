@@ -9,8 +9,8 @@ export default class inputfields extends Component{
         super(props);
         this.state = 
         { 
-            email: 'testAccount@gmail.com',
-            password: 'hello',
+            email: 'hello@igt.com',
+            password: 'Dave',
             error: false,
             loading: false
         };
@@ -55,7 +55,7 @@ export default class inputfields extends Component{
 
             <TextInput style={styles.inputContainers} onChangeText={(email) => this.setState({email})} value={this.state.email} keyboardType={'email-address'} placeholder={'Email'} placeholderTextColor={'#005691'} autoCapitalize={'none'}/>
 
-            <TextInput style={styles.inputContainers} onChangeText={(password) => this.setState({password})} value={this.state.password} keyboardType={'email-address'} placeholder={'Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+            <TextInput style={styles.inputContainers}  secureTextEntry={true} onChangeText={(password) => this.setState({password})} value={this.state.password} keyboardType={'email-address'} placeholder={'Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
 
             <Text style={{color: '#005691', marginBottom: 20}}> Forgot your password? </Text>
 
