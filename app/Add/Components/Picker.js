@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 
 import DatePicker from 'react-native-datepicker';
 
@@ -22,6 +22,13 @@ export default class picker extends Component{
         },
         body: JSON.stringify(data),
         });
+      
+      
+      Alert.alert(
+                  'Goal Added!'
+                  )
+      
+      
 }
   render() {
     return (
@@ -89,10 +96,11 @@ export default class picker extends Component{
                 onDateChange={(date) => {this.setState({eDate: date})}}
               />
         </View>
-
-        <TouchableOpacity style={styles.inputSubmit} onPress={this.uploadData}> 
+            <View style={styles.button}>
+        <TouchableOpacity style={styles.inputSubmit} onPress={this.uploadData}>
             <Image source={require('../../Images/Calender/Checkbox.png')} />
         </TouchableOpacity>
+            </View>
     </View>
     )
   }
@@ -119,5 +127,12 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+                                 
+    button:
+    {
+        alignItems: 'center',
+        justifyContent: 'center',
     }
+    
 });
