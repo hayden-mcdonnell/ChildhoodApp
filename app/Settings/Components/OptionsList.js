@@ -77,17 +77,22 @@ export default class Options extends Component{
           
           content = <View  style={styles.popUpContainer}>
           <Text style={styles.popUpContainerText}>Please confirm your current password before entering a new password. </Text>
-       <TextInput style={styles.inputContainers} onChangeText={(currentPw) => this.setState({currentPw})} value={this.state.currentPw} keyboardType={'email-address'} placeholder={'Current Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
-       <TextInput style={styles.inputContainers} onChangeText={(newPass) => this.setState({newPass})} value={this.state.newPass} keyboardType={'email-address'} placeholder={'New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
-       <TextInput style={styles.inputContainers} onChangeText={(confirmnewPass) => this.setState({confirmnewPass})} value={this.state.confirmnewPass} keyboardType={'email-address'} placeholder={'Confirm New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(currentPw) => this.setState({currentPw})} value={this.state.currentPw} keyboardType={'email-address'} placeholder={'Current Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(newPass) => this.setState({newPass})} value={this.state.newPass} keyboardType={'email-address'} placeholder={'New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
+       <TextInput style={styles.inputContainers} secureTextEntry={true} onChangeText={(confirmnewPass) => this.setState({confirmnewPass})} value={this.state.confirmnewPass} keyboardType={'email-address'} placeholder={'Confirm New Password'} placeholderTextColor={'#005691'} autoCapitalize={'none'} />
           
           <TouchableOpacity onPress={this.updatePW}>
           <Image source={require('../../Images/Settings/changePassword.png')} />
           </TouchableOpacity>
        
           //This is how we should probably do buttons, makes x compatability easuer :)
+          <View>
+          <Text> </Text> //Dirty way to push x down, should probably find a better way
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
           
-          <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
        {this.state.dontMatch ? <Text style={{color: 'red'}}> Passwords dont match. </Text> : null} 
        {this.state.passIncorrect ? <Text style={{color: 'red'}}> Current password is incorrect. </Text> : null} 
      </View>
@@ -97,42 +102,72 @@ export default class Options extends Component{
       {
           content = <View style ={styles.popUpContainer}>
           <Text style={styles.popUpContainerText}>
-          Terms go here
+          By using this application you are agreeing to allow data
+          that you enter to be collected by the party supplying the application.
+          Any data that is lost will not be the responsibilty of the supplying party.
+          Data will not be released by the supplying company under any circumstances
+          unless explicitly stated. Please contact the head researcher if you have any questions
+              or concerns.
           
         </Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Contact Us')
       {
-        content = <View>
-        <Text>Contact us go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Contact us go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Photos Sent')
       {
-        content = <View>
-        <Text>Photos go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}t>Photos go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Videos Sent')
       {
-        content = <View>
-        <Text>Videos go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Videos go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
       else if (this.state.linkClicked == 'Settings')
       {
-        content = <View>
-        <Text>Settings go here</Text>
-         <Button onPress={this.closeModal} title={'Close'} color={'red'}/>
+          content = <View style={styles.popUpContainer}>
+          <Text style={styles.popUpContainerText}>Settings go here</Text>
+          <View>
+          <Text> </Text>
+          </View>
+          <TouchableOpacity onPress={this.closeModal}>
+          <Image source={require('../../Images/Settings/No.png')} />
+          </TouchableOpacity>
          </View>
       }
 
@@ -215,9 +250,6 @@ const styles = StyleSheet.create({
     },
                                  
                                  
-    Button:
-    {
-                                 backgroundColor: '#005691'
-    }
+   
                                  
 })

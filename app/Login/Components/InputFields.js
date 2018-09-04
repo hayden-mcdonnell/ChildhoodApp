@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, TextInput, Text, Button} from 'react-native';
+import {StyleSheet, View, TextInput, Text, Button, TouchableOpacity, Image} from 'react-native';
 
 
 export default class inputfields extends Component{
@@ -59,7 +59,9 @@ export default class inputfields extends Component{
 
             <Text style={{color: '#005691', marginBottom: 20}}> Forgot your password? </Text>
 
-            <Button onPress={this.authenticate} title={'Submit'} color={'#005691'}/>
+            <TouchableOpacity onPress={this.authenticate}>
+            <Image source={require('../../Images/Login/Continue.png')} />
+            </TouchableOpacity>
             
         </View>
     );
