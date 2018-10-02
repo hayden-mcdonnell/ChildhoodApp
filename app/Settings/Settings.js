@@ -7,17 +7,24 @@ import Options from './Components/OptionsList'; //Settings option view will go i
 import Banner from './Components/Banner';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 
+import axios from 'axios';
+
 
 export default class homepage extends Component{
     
     constructor(props){
         super(props);
 
+        this.child = React.createRef();
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'),
             cameraRoll: false,
             image: {}
         };
+    }
+
+    componentDidMount() {
+        this.child.current.loadProfilePic();
     }
 
     cameraRollChange = () => {
@@ -30,18 +37,35 @@ export default class homepage extends Component{
         this.setState({
             image: current
         })
-        console.log(current);
     }
 
     sendPhoto = () =>{
-        fetch('http://localhost:3000/api/profilePic', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(this.state.image),
-            });
-        console.log(this.state.image);
+        const data = new FormData();
+
+        data.append('user', this.state.userId.email);
+        data.append('photo', {
+        uri: this.state.image.uri,
+        type: 'image/jpeg', 
+        name: this.state.image.filename,
+        });
+
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' },
+            onUploadProgress: function (progressEvent) {
+                var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+                if (percentCompleted === 100){
+                    this.setState({
+                     cameraRoll: false
+                   });
+                }
+            }.bind(this)
+        }
+    
+        axios.post('http://localhost:3000/api/profilePic', data, config);
+
+        
+
+        
     }
     
     render() {
@@ -49,7 +73,7 @@ export default class homepage extends Component{
                 
                         
                     
-                        <Banner camera={this.cameraRollChange}/>
+                        <Banner camera={this.cameraRollChange} ref={this.child} user={this.state.userId}/>
                         <Options user={this.state.userId}/>
                             
                             

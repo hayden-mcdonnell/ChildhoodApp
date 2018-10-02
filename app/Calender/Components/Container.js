@@ -9,23 +9,53 @@ export default class container extends Component{
         }
     }
 
+    addNote = () =>{
+        var payload = {
+            id: this.props.name.id,
+            note: this.state.note,
+        }
+        fetch('http://localhost:3000/api/addNote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+            })
+    }
+
+    viewNote = () => {
+        var payload = {
+            id: this.props.name.id,
+        }
+        this.props.viewNotes(payload);
+    }
+
     render() {
       return (
         <View style={styles.container}>
-            <Text style={styles.name}> {this.props.name.Name} </Text>
-            <View style={{alignItems: 'center', paddingTop: 20}}>
+            <Text style={styles.name}> {this.props.name.Name} </Text> 
+            <View style={{alignItems: 'center', paddingTop: 10}}>
                 <TextInput style={styles.inputContainers} onChangeText={(note) => this.setState({note})} value={this.state.note} clearTextOnFocus={true} placeholder={'Add Notes:'} placeholderTextColor={'#005691'} autoCapitalize={'sentences'}/>
-                <TouchableOpacity style={styles.inputSubmit}> 
+                <TouchableOpacity onPress={this.addNote} style={styles.inputSubmit}> 
                     <Image source={require('../../Images/Calender/Checkbox.png')} />
                 </TouchableOpacity>
                 <View style={styles.navContainer}>
-                    <TouchableOpacity style={{flex: 1}} onPress={this.changeTime}>
+                    <TouchableOpacity style={{flex: 1}} onPress={() => this.props.add(this.props.name.Name)}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={styles.text}> Add Progress Video/Photo </Text>
                             <Image style={styles.image} source={require('../../Images/Home/Camera.png')} />
                         </View>
                     </TouchableOpacity>
+                    
                 </View>
+                <View style={styles.navContainer}>
+                    <TouchableOpacity style={{flex: 1}} onPress={this.viewNote}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Text style={styles.text}> View Notes </Text>
+                                <Image style={styles.image} source={require('../../Images/Home/Add.png')} />
+                            </View>
+                    </TouchableOpacity>
+                </View> 
             </View>
         </View>
       );
@@ -35,7 +65,7 @@ export default class container extends Component{
 const styles = StyleSheet.create({
     container: 
      {
-         marginTop: 10,
+         marginTop: 5,
          marginLeft: 10,
          marginRight: 10,
          backgroundColor: '#CDCDCD',
@@ -43,7 +73,7 @@ const styles = StyleSheet.create({
      },
      name:
      {
-         marginTop: 10,
+         marginTop: 5,
          marginLeft: 15,
          marginBottom: 0,
          color: '#005691',
@@ -75,7 +105,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray', 
         backgroundColor: '#005691',
         borderRadius: 50,
-        marginBottom: 20,
+        marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center'
     },

@@ -77,7 +77,7 @@ export default class header extends Component{
                                     <Text style={styles.finish}>Finish</Text>
                                 </View>  
                             </View>
-                            <ListItems finishPro={this.finishProgress} />
+                            <ListItems finishPro={this.finishProgress} user={this.props.user} milestone={this.props.name.id}/>
                         </View>;
         
     return (

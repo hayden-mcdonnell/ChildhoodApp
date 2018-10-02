@@ -1,10 +1,34 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image, Alert} from 'react-native';
+
+import Modal from "react-native-modal";
+import Picker from './Picker';
 
 export default class navBar extends Component{
-    
+    constructor(props){
+        super(props);
+
+        this.state = {
+            openModal: false
+        };
+            
+    }
+
+    confirm = () => {
+        Alert.alert(
+            'Confirmation',
+            'Are you sure you want to mark this as complete?',
+            [
+              {text: 'Yes', onPress: () => this.finish()},
+              {text: 'No', onPress: () => console.log(), style: 'cancel'},
+            ],
+            { cancelable: false }
+          )
+    }
+
     finish = () =>
     {
+
         var today = new Date();
         
         var month = parseInt(today.getMonth()) + 1;
@@ -28,12 +52,26 @@ export default class navBar extends Component{
 
     changeTime = () =>
     {
-        alert('Update time in database and refresh')
+        this.setState({
+            openModal: true
+        });
+    }
+
+    closeModal = () =>
+    {
+        this.setState({
+            openModal: false
+        })
     }
     
   render() {
     return (
     <View>
+        <Modal isVisible={this.state.openModal}>
+            <View style = {{backgroundColor: 'white', height: '80%'}}>
+                <Picker  user={this.props.user} milestone={this.props.milestone} close={this.closeModal} />
+            </View>
+        </Modal>
         <View style={styles.navContainer}>
             <TouchableOpacity style={{flex: 1}}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -51,7 +89,7 @@ export default class navBar extends Component{
             </TouchableOpacity>
         </View>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}} onPress={this.finish}>
+            <TouchableOpacity style={{flex: 1}} onPress={this.confirm}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> Mark as Complete </Text>
                     <Image style={styles.image} source={require('../../Images/Home/Complete.png')} />

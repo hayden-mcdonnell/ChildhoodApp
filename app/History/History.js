@@ -12,7 +12,10 @@ export default class homepage extends Component{
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'),
             isLoading: true,
-            data: []
+            data: [],
+            imageData: [],
+            imageLoading: true,
+            allLoaded: false
         }
     }
     
@@ -69,17 +72,44 @@ export default class homepage extends Component{
             .catch((error) => {
               console.error(error);
             });
+
+            fetch('http://localhost:3000/api/getMilestonePics', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"User" : this.state.userId.email}), 
+            }).then((response) => response.json())
+            .then((responseJson) => {
+                for (var i =0; i<responseJson.length; i++)
+                {
+                    var folder = responseJson[i].folder;
+                    var file = responseJson[i].files[0];
+                    var a = {
+                        folder,
+                        file
+                    }
+                    this.state.imageData.push(a);
+                    
+                }   
+                
+                this.setState({
+                    imageLoading: false
+                });
+            });
+
+           
     }
+    
 
   render() {
-      
     return (
         <View style={{flex: 1, justifyContent: 'space-between'}}>
             <View>
                 <Header title='History'/>
             </View>
             <View style={{flex: 1, justifyContent: 'space-between', paddingTop: 30}}>
-                {this.state.isLoading ? null : <FlatList data={this.state.data} renderItem={({item}) => <Tile data={item}/> }/>}
+                {this.state.imageLoading ? null : <FlatList data={this.state.data} renderItem={({item}) => <Tile data={item} imageData={this.state.imageData} user={this.state.userId}/> }/>}
             </View>
             <Navigation nav={this.props.navigation} user={this.state.userId}/>
     </View>

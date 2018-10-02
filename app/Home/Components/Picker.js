@@ -7,28 +7,26 @@ export default class picker extends Component{
    constructor(props){
     super(props)
     this.state = {
+        user: this.props.user,
         sDate:'',
-        eDate:''
+        eDate:'',
+        done: false
     }
   }
 
 
   uploadData = () =>{
-      var data = {email: this.props.user.email ,milestoneName: this.props.milestone, startDate: this.state.sDate, endDate: this.state.eDate, notes: ''}
       
-      fetch('http://localhost:3000/api/add', {
+      var data = {user: this.state.user.email, milestone: this.props.milestone, startDate: this.state.sDate, endDate: this.state.eDate}
+    
+      fetch('http://localhost:3000/api/changeTime', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
         });
-
-      Alert.alert(
-                  'Goal Added!'
-                  )
-      
-      
+      this.props.close();
 }
   render() {
     return (

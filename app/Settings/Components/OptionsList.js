@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {TextInput, FlatList, StyleSheet, View, Text, Image, TouchableOpacity, Button} from 'react-native';
 
 import Modal from "react-native-modal";
+import ImagePrinter from './MilestoneImages';
 
 export default class Options extends Component{
 
@@ -16,8 +17,7 @@ export default class Options extends Component{
       newPass: '',
       confirmnewPass: '',
       dontMatch: false,
-      terms: false,
-
+      mileStones: []
     };
   }
 
@@ -65,6 +65,23 @@ export default class Options extends Component{
       });
     }
   }
+
+  loadSentImages = () =>{
+    fetch('http://localhost:3000/api/milestones', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.props.user),
+            }).then((response) => response.json())
+            .then((responseJson) => {
+              for (var i = 0; i < responseJson.length; i++){
+                this.state.mileStones.push(responseJson[i].milestoneName);
+              }
+            })
+    }
+ 
+
 
   closeModal = () =>{
     this.setState({ openModal: false });
@@ -134,13 +151,11 @@ export default class Options extends Component{
 
       else if (this.state.linkClicked == 'Photos Sent')
       {
+          this.loadSentImages();
           content = <View style={styles.popUpContainer}>
-          <Text style={styles.popUpContainerText}t>Photos go here</Text>
-          <View>
-          <Text> </Text>
-          </View>
-          <TouchableOpacity onPress={this.closeModal}>
-          <Image source={require('../../Images/Settings/No.png')} />
+            <ImagePrinter milestone={this.state.mileStones} user={this.props.user} />
+            <TouchableOpacity onPress={this.closeModal}>
+              <Image source={require('../../Images/Settings/No.png')} />
           </TouchableOpacity>
          </View>
       }
@@ -158,25 +173,12 @@ export default class Options extends Component{
          </View>
       }
 
-      else if (this.state.linkClicked == 'Settings')
-      {
-          content = <View style={styles.popUpContainer}>
-          <Text style={styles.popUpContainerText}>Settings go here</Text>
-          <View>
-          <Text> </Text>
-          </View>
-          <TouchableOpacity onPress={this.closeModal}>
-          <Image source={require('../../Images/Settings/No.png')} />
-          </TouchableOpacity>
-         </View>
-      }
-
 
     return (
             
             <View style={styles.container}>
             <Modal isVisible={this.state.openModal}>
-              <View style={{ flex: 1 , justifyContent: 'center'}}>
+              <View style={{ flex: 1 }}>
                 <View style = {{backgroundColor: 'white', height: '80%'}}>
                   {content}
                 </View>
@@ -188,8 +190,7 @@ export default class Options extends Component{
                    {key: 'Terms'},
                    {key: 'Contact Us'},
                    {key: 'Photos Sent'},
-                   {key: 'Videos Sent'},
-                   {key: 'Settings'},
+                   {key: 'Videos Sent'}
                    ]}
             renderItem={({item}) => <TouchableOpacity onPress={() => this.pressed(item.key)}> <Text style={styles.item}>{item.key}     <Image style={styles.image} source={require('../../Images/Settings/Arrow.png')} /></Text> </TouchableOpacity>} //Image goes in after key item is rendered
             />
@@ -212,7 +213,6 @@ const styles = StyleSheet.create({
       flex: 4, // Flex here controlls how far down it sits, 4 is nice
       paddingTop: 20, // How far it sits from top of banner
       backgroundColor: '#F2F2F2',
-      alignItems: 'center',
       justifyContent: 'center'
       
     },

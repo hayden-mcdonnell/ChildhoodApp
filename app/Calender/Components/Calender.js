@@ -7,6 +7,9 @@ import Container from './Container';
 export default class calender extends Component{
   constructor(props){
     super(props);
+
+    
+    
     this.state = {
        markedDates: {},
        data: [],
@@ -26,17 +29,24 @@ componentDidMount()
             body: JSON.stringify(this.props.user),
             }).then((response) => response.json())
             .then((responseJson) => {
+               if(responseJson.length === 0)
+               {
+                this.setState({
+                    isLoading: false
+                });
+               }
                 for (i = 0; i < responseJson.length; i++)
                     {
                         var sDate = responseJson[i].startDate.split("-");
                         var eDate = responseJson[i].endDate.split("-");
 
                         var name = responseJson[i].milestoneName;
+                        var id = responseJson[i]._id;
 
                         var newsDate = sDate[2] + "-" + sDate[1] + "-" + sDate[0];
                         var neweDate = eDate[2] + "-" + eDate[1] + "-" + eDate[0];
 
-                        this.state.data.push({Name: name, Start: newsDate, End: neweDate});
+                        this.state.data.push({id: id, Name: name, Start: newsDate, End: neweDate});
 
                         this.state.markedDates[newsDate] = {marked: true};
                         this.state.markedDates[neweDate] = {marked: true, dotColor: 'red'};
@@ -81,20 +91,9 @@ componentDidMount()
     return (
         <View>
               {this.state.isLoading ? null : <Calendar monthFormat={'MMMM yyyy'} hideExtraDays={true} firstDay={1} markedDates={this.state.markedDates}  hideDayNames={true} onDayPress={(day) => {this.checkDate(day)}}/>}
-              {this.state.dateSelect ? <Container name={this.state.selectedDate} /> : null}
+              {this.state.dateSelect ? <Container name={this.state.selectedDate} add={this.props.add} viewNotes={this.props.viewNotes}/> : null}
         </View>
       
     );
   }
 }
-
-const styles = StyleSheet.create({
-   container: 
-    {
-        marginTop: 30,
-        marginLeft: 15,
-        marginRight: 15,
-        height: 300,
-        backgroundColor: '#CDCDCD',
-    }
-});

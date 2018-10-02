@@ -5,6 +5,7 @@ import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
 import Container from './Components/Container';
 
+
 export default class homepage extends Component{
     constructor(props){
         super(props);
@@ -64,7 +65,7 @@ export default class homepage extends Component{
     <View style={{flex: 1}}>
         <ScrollView>
             <Header title='Home'/>
-                {this.state.isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : <FlatList data={this.state.dataSource} renderItem={({item}) => <Container name={item} />}/>}
+                {this.state.isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : <FlatList data={this.state.dataSource} renderItem={({item}) => <Container name={item} user={this.state.userId}/>}/>}
             <View style={{height: 30}} />
         </ScrollView>
         <View>

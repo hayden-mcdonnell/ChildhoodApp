@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
-export default class navBar extends Component{
-    
-    calenderC = (data) => {
-        this.props.cal(data);
-    }   
+export default class navBar extends Component{ 
     
   render() {
     return (
