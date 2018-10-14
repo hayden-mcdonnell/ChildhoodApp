@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
+
+var url = "http://192.168.0.199:3000";
 
 export default class container extends Component{
     constructor(props){
@@ -14,20 +16,13 @@ export default class container extends Component{
             id: this.props.name.id,
             note: this.state.note,
         }
-        fetch('http://localhost:3000/api/addNote', {
+        fetch(url + '/api/addNote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload),
             })
-    }
-
-    viewNote = () => {
-        var payload = {
-            id: this.props.name.id,
-        }
-        this.props.viewNotes(payload);
     }
 
     render() {
@@ -39,6 +34,7 @@ export default class container extends Component{
                 <TouchableOpacity onPress={this.addNote} style={styles.inputSubmit}> 
                     <Image source={require('../../Images/Calender/Checkbox.png')} />
                 </TouchableOpacity>
+                
                 <View style={styles.navContainer}>
                     <TouchableOpacity style={{flex: 1}} onPress={() => this.props.add(this.props.name.Name)}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -48,14 +44,6 @@ export default class container extends Component{
                     </TouchableOpacity>
                     
                 </View>
-                <View style={styles.navContainer}>
-                    <TouchableOpacity style={{flex: 1}} onPress={this.viewNote}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <Text style={styles.text}> View Notes </Text>
-                                <Image style={styles.image} source={require('../../Images/Home/Add.png')} />
-                            </View>
-                    </TouchableOpacity>
-                </View> 
             </View>
         </View>
       );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button, Platform, Alert} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
@@ -8,6 +8,8 @@ import Banner from './Components/Banner';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 
 import axios from 'axios';
+
+var url = "http://192.168.0.199:3000";
 
 
 export default class homepage extends Component{
@@ -19,7 +21,8 @@ export default class homepage extends Component{
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'),
             cameraRoll: false,
-            image: {}
+            image: {},
+            imageChosen: false
         };
     }
 
@@ -28,25 +31,47 @@ export default class homepage extends Component{
     }
 
     cameraRollChange = () => {
+        console.log(this.state.imageChosen);
         this.setState({
             cameraRoll: true
         });
     }
 
+    closeRoll = () => {
+        this.setState({
+            cameraRoll: false,
+            imageChosen: false
+          });
+    }
+
     getSelectedImages = (images, current) => {
         this.setState({
-            image: current
+            image: current,
+            imageChosen: true
         })
     }
 
     sendPhoto = () =>{
+        
+       if (this.state.imageChosen){
+        var nameSent;
+        if (Platform.OS === "android"){
+            nameSent = this.state.image.uri;
+        }
+        else if (Platform.OS === "ios"){
+            var a = this.state.image.uri.split('/');
+            var sending = a[a.length-1] + '.jpeg';
+            nameSent = sending;
+        }
+
+        console.log(this.state.image);
         const data = new FormData();
 
         data.append('user', this.state.userId.email);
         data.append('photo', {
         uri: this.state.image.uri,
         type: 'image/jpeg', 
-        name: this.state.image.filename,
+        name: nameSent,
         });
 
         const config = {
@@ -61,28 +86,32 @@ export default class homepage extends Component{
             }.bind(this)
         }
     
-        axios.post('http://localhost:3000/api/profilePic', data, config);
+        axios.post(url + '/api/profilePic', data, config);
+       }
 
-        
-
-        
+       else{
+        Alert.alert(
+            'Error',
+            'You must choose an image',
+            [
+              {text: 'Confirm', onPress: () =>{}},
+            ],
+            { cancelable: false }
+          )
+       }
     }
     
     render() {
-        const normal = <View style={styles.Main}> //Flex needs to be 1 here to set menu bar to bottom
-                
-                        
-                    
-                        <Banner camera={this.cameraRollChange} ref={this.child} user={this.state.userId}/>
-                        <Options user={this.state.userId}/>
-                            
-                            
+        const normal = <View style={styles.Main}> 
+                           <Banner camera={this.cameraRollChange} ref={this.child} user={this.state.userId}/>
+                             <Options user={this.state.userId}/>
                             <Navigation nav={this.props.navigation} user={this.state.userId}/>
-                            </View>;
+                        </View>;
 
             const picker = <View style={styles.Main}>
                                <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true}/>
                                <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
+                               <Button onPress={this.closeRoll} title={'Cancel'} color={'red'}/>
                             </View>;
 
 

@@ -7,7 +7,7 @@ export default class navBar extends Component{
     return (
     <View>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}}>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.props.viewNotes(this.props.milestone.id)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> Add Notes </Text>
                     <Image style={styles.image} source={require('../../Images/Home/Add.png')} />
@@ -15,7 +15,7 @@ export default class navBar extends Component{
             </TouchableOpacity>
         </View>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}}>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.props.openRoll(this.props.milestone.Name)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> Add Final Video/Picture </Text>
                     <Image style={styles.image} source={require('../../Images/Home/Camera.png')} />

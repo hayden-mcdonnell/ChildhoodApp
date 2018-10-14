@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {View, Text, Image, StyleSheet, FlatList} from 'react-native';
+import {View, ScrollView, Text, StyleSheet, Image} from 'react-native';
+import Fade from 'react-native-fade-in-image';
+import {SkypeIndicator} from 'react-native-indicators';
+
+var url = "http://192.168.0.199:3000";
 
 export default class container extends Component{
     constructor(props){
@@ -9,13 +13,12 @@ export default class container extends Component{
             profilePic: '',
             profilePicLoaded: false,
             files: [],
-            titles: [],
-            dataLoaded: false
+            dataLoaded: false,
         }
     }
 
     componentDidMount = () =>{
-        fetch('http://localhost:3000/api/getMilestonePics', {
+        fetch(url + '/api/getMilestonePics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,51 +26,96 @@ export default class container extends Component{
             body: JSON.stringify({"User" : this.props.user.email}), 
             }).then((response) => response.json())
             .then((responseJson) => {
-                for (var i =0; i<responseJson.length; i++)
-                {
-                    var a = responseJson[i].folder;
-                    var b = responseJson[i].files;
+                if(responseJson.data === "Empty"){
+                    this.setState({
+                        dataLoaded: true
+                    });
+                }
+                else{
+                    var counter = 1;
+                    var object = [];
+                    var fileCounter = 0;
+                    for (var i = 0; i < responseJson.data.length; i++){
+                        var b = responseJson.data[i].files;
+                
+                        for (var h = 0; h < b.length; h++){ //For every file 
+                            var payload = {
+                                User: this.props.user.email,
+                                Milestone: responseJson.data[i].folder,
+                                Filename: responseJson.data[i].files[h]
+                            }
+                        
 
-                    
-                    for (var h = 0; h < b.length; h++){ //For every file 
-                        var match = false;
-                    
-                        for (var j = 0; j < this.state.files.length; j++){  //Loop through currently added files
-                            if ((b[h]) === this.state.files[j]) //If it exist match = true
-                            {
-                               match = true;
+                            fetch(url + '/api/getMilestonePicsInd', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(payload) 
+                                }).then((response) => {
+                                    
+                                    const fileReaderInstance = new FileReader();
+                                    fileReaderInstance.readAsDataURL(response._bodyBlob); 
+                                
+                                    fileReaderInstance.onload = () => {
+                                        fileCounter++;
+                                        base64data = fileReaderInstance.result; 
+                                        object.push(base64data);
+                                    
+                                        if(responseJson.length === fileCounter)
+                                        {
+                                            for (var i = 0; i < object.length; i += 3) {
+                                                var a = object.slice(i, i+3);
+                                                this.state.files.push(a);
+                                            }
+                                            this.setState({
+                                                dataLoaded: true
+                                            });
+                                        }    
+                                    }
+                                })
                             }
                         }
-        
-                        if (match === false)
-                        {
-                            this.state.files.push(b[h]);
-                        }
-                    }
 
-                    var folder = {
-                        folder: a
                     }
-                    
-                    this.state.titles.push(folder);
-                }
-
-                this.setState({
-                    
-                    dataLoaded: true
+                        
                 })
-            })
-          
     }
 
+    onLoad = () => {
+        Animated.timing(this.state.opacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }
+
     render() {
+        var Images = <ScrollView>
+        {this.state.files.map((p, i) => {
+           return (
+                <View>
+                    <View style={{flexDirection: "row"}}>
+                    <Fade>
+                       <Image key={i*3-2} style={{width: 100, height: 100, margin: 5}} source={{uri: this.state.files[i][0]}}/>
+                    </Fade>
+                    <Fade>
+                       <Image key={i*3-1} style={{width: 100, height: 100, margin: 5}} source={{uri: this.state.files[i][1]}}/>
+                       </Fade>
+                       <Fade>
+                       <Image key={i*3} style={{width: 100, height: 100, margin: 5}} source={{uri: this.state.files[i][2]}}/>
+                       </Fade>
+                   </View>
+                </View>
+             );
+       })}
+       </ScrollView>
+
+
       return (
         <View style={styles.Main}>
-            <FlatList
-                data={this.state.files}
-                numColumns={3}
-                renderItem={({item}) => <View style={{margin: 5}}><Image source={{uri: 'http://localhost:3000/' + item}} style={{ height: 100, width: 100}}/> </View>}
-            />
+        <Text style={styles.Text}>Photos Sent</Text>
+        { this.state.dataLoaded ? Images : <SkypeIndicator color={'#005691'} size={70}/> }
         </View>
       );
     }
@@ -77,10 +125,17 @@ export default class container extends Component{
 
     Main:
     {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#F2F2F2'
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#F2F2F2'
     },
-
+    Text:
+    {
+        marginTop: 15,
+        fontSize: 20,
+        color: '#005691',
+        fontWeight: 'bold',
+        fontFamily: 'System'
+    }
 
 })

@@ -3,6 +3,8 @@ import {StyleSheet, View, Text, TouchableOpacity, Image, Alert} from 'react-nati
 
 import DatePicker from 'react-native-datepicker';
 
+var url = "http://192.168.0.199:3000";
+
 export default class picker extends Component{
    constructor(props){
     super(props)
@@ -16,10 +18,9 @@ export default class picker extends Component{
 
 
   uploadData = () =>{
-      
       var data = {user: this.state.user.email, milestone: this.props.milestone, startDate: this.state.sDate, endDate: this.state.eDate}
     
-      fetch('http://localhost:3000/api/changeTime', {
+      fetch(url + '/api/changeTime', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ export default class picker extends Component{
 
         <View style={styles.dateBoxes}>
               <Text style={styles.text}> End Date:{'\u00A0\u00A0'} </Text>
-              <DatePicker
+              <DatePicker   
                 style={{width: 200}}
                 date={this.state.eDate}
                 mode="date"
@@ -98,6 +99,10 @@ export default class picker extends Component{
         <TouchableOpacity style={styles.inputSubmit} onPress={this.uploadData}>
             <Image source={require('../../Images/Calender/Checkbox.png')} />
         </TouchableOpacity>
+        <TouchableOpacity  onPress={() => this.props.close()}>
+            <Text> Close Modal </Text>
+        </TouchableOpacity>
+
             </View>
     </View>
     )

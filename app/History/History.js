@@ -5,6 +5,8 @@ import Header from '../GlobalComponents/Header';
 import Tile from './Components/Tile';
 import Navigation from '../GlobalComponents/Navigation';
 
+var url = "http://192.168.0.199:3000";
+
 export default class homepage extends Component{
     constructor(props){
         super(props);
@@ -15,12 +17,12 @@ export default class homepage extends Component{
             data: [],
             imageData: [],
             imageLoading: true,
-            allLoaded: false
+            allLoading: true
         }
     }
     
     componentDidMount() {
-        fetch('http://localhost:3000/api/milestones', {
+        fetch(url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,37 +70,17 @@ export default class homepage extends Component{
                 this.setState({
                     isLoading: false
                 });
+
+                if (!this.state.imageLoading && !this.state.isLoading)
+                {
+                    this.setState({
+                        allLoading: false
+                    });
+                }
             })
             .catch((error) => {
               console.error(error);
-            });
-
-            fetch('http://localhost:3000/api/getMilestonePics', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({"User" : this.state.userId.email}), 
-            }).then((response) => response.json())
-            .then((responseJson) => {
-                for (var i =0; i<responseJson.length; i++)
-                {
-                    var folder = responseJson[i].folder;
-                    var file = responseJson[i].files[0];
-                    var a = {
-                        folder,
-                        file
-                    }
-                    this.state.imageData.push(a);
-                    
-                }   
-                
-                this.setState({
-                    imageLoading: false
-                });
-            });
-
-           
+            }); 
     }
     
 
@@ -109,7 +91,7 @@ export default class homepage extends Component{
                 <Header title='History'/>
             </View>
             <View style={{flex: 1, justifyContent: 'space-between', paddingTop: 30}}>
-                {this.state.imageLoading ? null : <FlatList data={this.state.data} renderItem={({item}) => <Tile data={item} imageData={this.state.imageData} user={this.state.userId}/> }/>}
+                {this.state.isLoading ? null : <FlatList data={this.state.data} renderItem={({item}) => <Tile data={item} imageData={this.state.imageData} user={this.state.userId}/> }/>}
             </View>
             <Navigation nav={this.props.navigation} user={this.state.userId}/>
     </View>

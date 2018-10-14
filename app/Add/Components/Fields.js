@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, TextInput, Text} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 
-import Picker from './Picker';
+import Picker1 from './Picker';
+import Picker2 from 'react-native-simple-picker';
 
 export default class inputfields extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            milestone:''
+            milestone:'',
+            milestonePicker: false
         }
       }
 
+      openMilestonePicker = () =>{
+        this.refs.picker.show()
+      }
+
   render() {
+    const options = ['Crawling', 'Walking', 'Running'];
     return (
-        <View style={styles.viewContainer}> 
+        <View style={styles.viewContainer}>
+        
             <View style={styles.dateBoxes}>
-                <Text style={styles.text} > Milestone: </Text>>
-                <TextInput style={styles.box} onChangeText={(milestone) => this.setState({milestone})} value={this.state.milestone}/>
+                <Text style={styles.text}> Milestone: </Text>
+                <TouchableOpacity style={styles.box} onPress={this.openMilestonePicker} >
+                    <Text textAlign="center">{this.state.milestone}</Text>
+                </TouchableOpacity>
             </View>
-            <Picker milestone={this.state.milestone} user={this.props.user}/>
-            
+            <Picker1 milestone={this.state.milestone} user={this.props.user}/>
+            <Picker2 ref={'picker'} options={options} cancelTextStyle={{color: 'red'}} confirmTextStyle={{color: '#005691'}} onSubmit={(option) => {this.setState({milestone: option})}}/>
         </View>
     );
   }
@@ -58,6 +68,8 @@ const styles = StyleSheet.create({
         width: 200,
         height: 40,
         backgroundColor: '#CDCDCD',
-        borderRadius: 5
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

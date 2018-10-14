@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet, Text, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {SkypeIndicator} from 'react-native-indicators';
 
-import CameraRollPicker from 'react-native-camera-roll-picker';
+var url = "http://192.168.0.199:3000";
 
 export default class Banner extends Component {
      constructor(props) {
@@ -18,8 +19,8 @@ export default class Banner extends Component {
       }
 
       loadProfilePic = () => {
-          
-            fetch('http://localhost:3000/api/getProfilePic', {
+          console.log(this.props.user.email);
+            fetch(url + '/api/getProfilePic', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,12 +41,15 @@ export default class Banner extends Component {
       
     render() {
         return (
-                <View style={{flex: 2}}> //This controlls the banners height
+                <View style={{height: 180}}>
+                
                     <View style={styles.bg}>
+                   
                         <TouchableOpacity onPress={this.openRoll} style={{borderRadius:50}}>
-                            {this.state.profilePicLoaded ? <Image source={{uri: this.state.profilePic}} style={{ height: 100, width: 100, borderRadius:50}} /> : <ActivityIndicator size="large" color="#0000ff" />}
+                            {this.state.profilePicLoaded ? <Image source={{uri: this.state.profilePic}} style={{ height: 100, width: 100, borderRadius:50}} /> : <SkypeIndicator color="#0000ff" />}
                         </TouchableOpacity>
-                    </View>
+                    
+                    </View> 
                 </View>
                 );
     }
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
 
     bg:
     {
-        flex: 2, //flex here also controlls banners height
+        flex: 1, //flex here also controlls banners height
         backgroundColor: '#005691',
         justifyContent: 'center',
         alignItems: 'center'

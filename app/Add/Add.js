@@ -12,17 +12,17 @@ export default class homepage extends Component {
         super(props);
 
         this.state = {
-            userId: this.props.navigation.getParam('UserData', 'NO-Data'),
+            userId: this.props.navigation.getParam('UserData', 'NO-Data'), 
         };
     }
     
   render() {
     return (
-    <View style={{flex: 1, justifyContent: 'space-between'}}>
+    <View style={{flex: 1, justifyContent: 'space-between'}}>  
         <View>
             <Header title='Add a Milestone'/>
-            <Image />
-            <Fields user={this.state.userId}/>
+            <Image />  
+            <Fields user={this.state.userId}/> 
         </View>
         <Navigation nav={this.props.navigation} user={this.state.userId}/>
     </View>

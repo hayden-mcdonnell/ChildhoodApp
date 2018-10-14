@@ -4,6 +4,8 @@ import {TextInput, FlatList, StyleSheet, View, Text, Image, TouchableOpacity, Bu
 import Modal from "react-native-modal";
 import ImagePrinter from './MilestoneImages';
 
+var url = "http://192.168.0.199:3000";
+
 export default class Options extends Component{
 
   constructor(props) {
@@ -23,6 +25,7 @@ export default class Options extends Component{
 
   pressed(x)
   {
+    console.log(x);
     this.setState({
       linkClicked: x,
       openModal: true
@@ -44,7 +47,7 @@ export default class Options extends Component{
 
       var payload = {email, current, newpw, confirm};
       
-      fetch('http://localhost:3000/api/changepw', {
+      fetch(url + '/api/changepw', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -58,16 +61,19 @@ export default class Options extends Component{
             })
           }
         });
+        this.setState({
+          openModal: false
+        })
     }
     else{
       this.setState({
-        dontMatch: true
+        dontMatch: true,
       });
     }
   }
 
   loadSentImages = () =>{
-    fetch('http://localhost:3000/api/milestones', {
+    fetch(url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -102,9 +108,8 @@ export default class Options extends Component{
           <Image source={require('../../Images/Settings/changePassword.png')} />
           </TouchableOpacity>
        
-          //This is how we should probably do buttons, makes x compatability easuer :)
           <View>
-          <Text> </Text> //Dirty way to push x down, should probably find a better way
+          <Text> </Text> 
           </View>
           <TouchableOpacity onPress={this.closeModal}>
           <Image source={require('../../Images/Settings/No.png')} />
@@ -153,7 +158,7 @@ export default class Options extends Component{
       {
           this.loadSentImages();
           content = <View style={styles.popUpContainer}>
-            <ImagePrinter milestone={this.state.mileStones} user={this.props.user} />
+            <ImagePrinter user={this.props.user} />
             <TouchableOpacity onPress={this.closeModal}>
               <Image source={require('../../Images/Settings/No.png')} />
           </TouchableOpacity>
@@ -185,14 +190,8 @@ export default class Options extends Component{
               </View>
             </Modal>
             <FlatList
-            data={[
-                   {key: 'Change Password' },
-                   {key: 'Terms'},
-                   {key: 'Contact Us'},
-                   {key: 'Photos Sent'},
-                   {key: 'Videos Sent'}
-                   ]}
-            renderItem={({item}) => <TouchableOpacity onPress={() => this.pressed(item.key)}> <Text style={styles.item}>{item.key}     <Image style={styles.image} source={require('../../Images/Settings/Arrow.png')} /></Text> </TouchableOpacity>} //Image goes in after key item is rendered
+            data={[{key: 'Change Password'}, {key: 'Terms'}, {key: 'Contact Us'}, {key: 'Photos Sent'}, {key: 'Videos Sent'}]}
+            renderItem={({item}) => <TouchableOpacity onPress={() => this.pressed(item.key)}><Text style={styles.item}>{item.key}</Text></TouchableOpacity>}
             />
             </View>
     );

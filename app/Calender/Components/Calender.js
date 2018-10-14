@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {KeyboardAvoidingView, View, Text} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 
 import Container from './Container';
+
+var url = "http://192.168.0.199:3000";
 
 export default class calender extends Component{
   constructor(props){
@@ -21,7 +23,7 @@ export default class calender extends Component{
 
 componentDidMount()
     {
-        fetch('http://localhost:3000/api/milestones', {
+        fetch(url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +93,7 @@ componentDidMount()
     return (
         <View>
               {this.state.isLoading ? null : <Calendar monthFormat={'MMMM yyyy'} hideExtraDays={true} firstDay={1} markedDates={this.state.markedDates}  hideDayNames={true} onDayPress={(day) => {this.checkDate(day)}}/>}
-              {this.state.dateSelect ? <Container name={this.state.selectedDate} add={this.props.add} viewNotes={this.props.viewNotes}/> : null}
+              {this.state.dateSelect ? <Container name={this.state.selectedDate} add={this.props.add} /> : null}
         </View>
       
     );

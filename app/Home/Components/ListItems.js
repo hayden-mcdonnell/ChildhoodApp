@@ -9,71 +9,66 @@ export default class navBar extends Component{
         super(props);
 
         this.state = {
-            openModal: false
+            openModal: false    //For changing time modal
         };
             
     }
 
-    confirm = () => {
+    confirm = () => {   //To confirm the finishing of a goal
         Alert.alert(
             'Confirmation',
             'Are you sure you want to mark this as complete?',
             [
               {text: 'Yes', onPress: () => this.finish()},
-              {text: 'No', onPress: () => console.log(), style: 'cancel'},
+              {text: 'No', onPress: () =>  {}, style: 'cancel'},
             ],
             { cancelable: false }
           )
     }
 
-    finish = () =>
+    finish = () =>  //If finish of goal is confirmed this is ran
     {
-
-        var today = new Date();
+        var today = new Date(); 
         
-        var month = parseInt(today.getMonth()) + 1;
-        var day = today.getDate();
+        var month = parseInt(today.getMonth()) + 1; //Var month is todays month plus 1, as months start from 0 not 1
+        var day = today.getDate();  //Get todays date to add as the end date
 
-        if (month < 10)
+        if (month < 10) //If the month is less than 10, add a 0 so for July its "07" not just "7"
         {
             month = "0" + String(month);
         }
 
-        if (day < 10)
+        if (day < 10)  //If the day is less than 10, add a 0 so for 8/10 its "08" not just "8"
         {
            day = "0" + String(day);
         }
        
 
-        var fullDate = day + "-" + month + "-" + today.getFullYear();
+        var fullDate = day + "-" + month + "-" + today.getFullYear();   //Full date as stored in database. Format dd/mm/yyyy
         
-        this.props.finishPro(fullDate);
+        this.props.finishPro(fullDate); //Run the fishProgress method from the Container module
     }   
 
-    changeTime = () =>
+    changeModel = () =>  //When changes whether the modal is opened or closed
     {
         this.setState({
-            openModal: true
+            openModal: !this.state.openModal
         });
-    }
-
-    closeModal = () =>
-    {
-        this.setState({
-            openModal: false
-        })
     }
     
   render() {
     return (
     <View>
-        <Modal isVisible={this.state.openModal}>
-            <View style = {{backgroundColor: 'white', height: '80%'}}>
-                <Picker  user={this.props.user} milestone={this.props.milestone} close={this.closeModal} />
+        <Modal isVisible={this.state.openModal}>    
+            <View style = {{backgroundColor: 'white'}}>
+                <Text style={styles.headText}>Change Time</Text>
+                <View style={{justifyContent: 'center', height: '70%', backgroundColor: 'white'}}>
+                    <Picker user={this.props.user} milestone={this.props.milestone} close={this.changeModel} />
+                </View>
             </View>
         </Modal>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}}>
+            <TouchableOpacity style={{flex: 1}}> 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> View Example </Text>
                     <Image style={styles.image} source={require('../../Images/Home/View.png')} />
@@ -81,7 +76,7 @@ export default class navBar extends Component{
             </TouchableOpacity>
         </View>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}} onPress={this.changeTime}>
+            <TouchableOpacity style={{flex: 1}} onPress={this.changeModel}> 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> Change Time </Text>
                     <Image style={styles.image} source={require('../../Images/Home/time.png')} />
@@ -89,7 +84,7 @@ export default class navBar extends Component{
             </TouchableOpacity>
         </View>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}} onPress={this.confirm}>
+            <TouchableOpacity style={{flex: 1}} onPress={this.confirm}> 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}> Mark as Complete </Text>
                     <Image style={styles.image} source={require('../../Images/Home/Complete.png')} />
@@ -118,5 +113,14 @@ const styles = StyleSheet.create({
     image:
     {
         marginRight: 15
+    },
+    headText:
+    {
+        marginTop: 15,
+        fontSize: 20,
+        color: '#005691',
+        fontWeight: 'bold',
+        fontFamily: 'System',
+        textAlign: 'center',
     }
 });
