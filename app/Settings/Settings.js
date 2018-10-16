@@ -9,9 +9,6 @@ import CameraRollPicker from 'react-native-camera-roll-picker';
 
 import axios from 'axios';
 
-var url = "http://192.168.0.199:3000";
-
-
 export default class homepage extends Component{
     
     constructor(props){
@@ -21,7 +18,7 @@ export default class homepage extends Component{
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'),
             cameraRoll: false,
-            image: {},
+            image: [],
             imageChosen: false
         };
     }
@@ -31,7 +28,6 @@ export default class homepage extends Component{
     }
 
     cameraRollChange = () => {
-        console.log(this.state.imageChosen);
         this.setState({
             cameraRoll: true
         });
@@ -45,31 +41,30 @@ export default class homepage extends Component{
     }
 
     getSelectedImages = (images, current) => {
+        this.state.image.push(current);
         this.setState({
-            image: current,
             imageChosen: true
         })
     }
 
     sendPhoto = () =>{
-        
+
        if (this.state.imageChosen){
         var nameSent;
-        if (Platform.OS === "android"){
-            nameSent = this.state.image.uri;
+        if (Platform.OS === "ios"){
+            nameSent = this.state.image[0].uri;
         }
-        else if (Platform.OS === "ios"){
-            var a = this.state.image.uri.split('/');
+        else if (Platform.OS === "android"){
+            var a = this.state.image[0].uri.split('/');
             var sending = a[a.length-1] + '.jpeg';
             nameSent = sending;
         }
 
-        console.log(this.state.image);
         const data = new FormData();
 
         data.append('user', this.state.userId.email);
         data.append('photo', {
-        uri: this.state.image.uri,
+        uri: this.state.image[0].uri,
         type: 'image/jpeg', 
         name: nameSent,
         });
@@ -86,7 +81,7 @@ export default class homepage extends Component{
             }.bind(this)
         }
     
-        axios.post(url + '/api/profilePic', data, config);
+        axios.post(global.url + '/api/profilePic', data, config);
        }
 
        else{
@@ -109,9 +104,11 @@ export default class homepage extends Component{
                         </View>;
 
             const picker = <View style={styles.Main}>
-                               <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true}/>
-                               <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
-                               <Button onPress={this.closeRoll} title={'Cancel'} color={'red'}/>
+                               <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true} selected={this.state.image}/>
+                               <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 10, backgroundColor: 'white'}}>
+                                <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
+                                <Button onPress={this.closeRoll} title={'Cancel'} color={'red'}/>
+                               </View>
                             </View>;
 
 

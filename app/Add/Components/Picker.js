@@ -3,8 +3,6 @@ import {StyleSheet, View, Text, TouchableOpacity, Image, Alert} from 'react-nati
 
 import DatePicker from 'react-native-datepicker';
 
-var url = "http://192.168.0.199:3000";
-
 export default class picker extends Component{
    constructor(props){
     super(props)
@@ -18,7 +16,7 @@ export default class picker extends Component{
   uploadData = () =>{
       var data = {email: this.props.user.email ,milestoneName: this.props.milestone, startDate: this.state.sDate, endDate: this.state.eDate, notes: ''}
       
-      fetch(url + '/api/add', {
+      fetch(global.url + '/api/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

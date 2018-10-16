@@ -5,8 +5,6 @@ import Header from '../GlobalComponents/Header';
 import Tile from './Components/Tile';
 import Navigation from '../GlobalComponents/Navigation';
 
-var url = "http://192.168.0.199:3000";
-
 export default class homepage extends Component{
     constructor(props){
         super(props);
@@ -22,7 +20,7 @@ export default class homepage extends Component{
     }
     
     componentDidMount() {
-        fetch(url + '/api/milestones', {
+        fetch(global.url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

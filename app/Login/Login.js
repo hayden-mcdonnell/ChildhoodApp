@@ -8,7 +8,6 @@ import Input from './Components/InputFields';
 export default class homepage extends Component {
     constructor(props){
     super(props);
-
     this.state = {
         image: true
     }

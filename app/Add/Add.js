@@ -13,6 +13,7 @@ export default class homepage extends Component {
 
         this.state = {
             userId: this.props.navigation.getParam('UserData', 'NO-Data'), 
+            showImage: true
         };
     }
     
@@ -21,8 +22,7 @@ export default class homepage extends Component {
     <View style={{flex: 1, justifyContent: 'space-between'}}>  
         <View>
             <Header title='Add a Milestone'/>
-            <Image />  
-            <Fields user={this.state.userId}/> 
+            <Fields user={this.state.userId} /> 
         </View>
         <Navigation nav={this.props.navigation} user={this.state.userId}/>
     </View>

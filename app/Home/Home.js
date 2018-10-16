@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ScrollView, View, FlatList, ActivityIndicator, Button, StyleSheet, Platform, TextInput} from 'react-native';
+import {ScrollView, View, FlatList, ActivityIndicator, Button, StyleSheet, Platform, TextInput, Text} from 'react-native';
 
 import Header from '../GlobalComponents/Header';
 import Navigation from '../GlobalComponents/Navigation';
@@ -8,9 +8,6 @@ import Container from './Components/Container';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import axios from 'axios';
 import Modal from "react-native-modal";
-
-var url = "http://192.168.0.199:3000";
-
 
 export default class homepage extends Component{
     constructor(props){ 
@@ -22,21 +19,27 @@ export default class homepage extends Component{
             noMilestones: false,    //Set to true if no milestones are found for given user  
             isLoading: true,    //Used in a ternery expression when rendering
             cameraRoll: false,
-            image: {},
+            image: [],
             imageSelected: false,
             currentMilestone: '',
             viewNote: '',
             openModal: false,
-            currentNote: ''
+            currentNote: '',
+            imageSending: false
         };   
     }
     
     componentDidMount() {   //When the component or module loads... This is a lifecycle method built into react native
+        
         var payload = { //Object send to backend consisting of the email
             email: this.state.userId.email
         }
+        this.fetchMilestones(payload);
+    }
 
-        fetch(url + '/api/milestones', { //Fetches milestones that have been added
+    fetchMilestones = (payload) => {
+        console.log("Hey");
+        fetch(global.url + '/api/milestones', { //Fetches milestones that have been added
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', //Specifies of JSON type
@@ -44,6 +47,7 @@ export default class homepage extends Component{
             body: JSON.stringify(payload),    //Sends the payload (email) of the person to find all milestones associated with that email
             }).then((response) => response.json())  //Backend sends a response to the request. Transforms it into JSON format
             .then((responseJson) => {   //With the responseJson 
+                console.log(responseJson);
                 if (responseJson.length === 0){ //If there are no milestones set to true... Used to render something when milestones are empty
                     this.setState({
                         noMilestones: true
@@ -85,17 +89,20 @@ export default class homepage extends Component{
     }
 
     sendPhoto = () =>{
-        if(this.state.photoSelected)
+        if(this.state.imageSelected)
         { 
+        this.setState({
+            imageSending: true
+        })
          const data = new FormData();
          var Name1;
  
          if (Platform.OS === 'ios'){
-             Name1 = this.state.image.filename;
+             Name1 = this.state.image[0].filename;
          }
          else
          {
-             var a = this.state.image.uri.split('/');
+             var a = this.state.image[0].uri.split('/');
              var sending = a[a.length-1] + '.jpeg';
              Name1 = sending;
          }
@@ -103,21 +110,27 @@ export default class homepage extends Component{
          data.append('user', this.state.userId.email);
          data.append('milestone', this.state.currentMilestone);
          data.append('photo', {
-         uri: this.state.image.uri,
+         uri: this.state.image[0].uri,
          type: 'image/jpeg', 
          name: Name1,
          });
  
          const config = {
-             headers: { 'content-type': 'multipart/form-data' }
+             headers: { 'content-type': 'multipart/form-data' },
+             onUploadProgress: function (progressEvent) {
+                var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+                if (percentCompleted === 100){
+                    this.setState({
+                        cameraRoll: false,
+                        photoSelected: false,
+                        image: [],
+                        imageSending: false
+                      });
+                }
+            }.bind(this)
          }
  
-         axios.post(url + '/api/milestonePic', data, config); 
-         
-         this.setState({
-             cameraRoll: false,
-             image: {},
-           });
+         axios.post(global.url + '/api/milestonePic', data, config); 
         }
         
          else{
@@ -132,15 +145,15 @@ export default class homepage extends Component{
             }
  
             this.setState({
-             image: {},
-             photoSelected: false
+             image: [],
+             imageSelected: false
          })
      }
 
      getSelectedImages = (images, current) => {
+        this.state.image.push(current);
         this.setState({
-            image: current,
-            photoSelected: true
+            imageSelected: true
         })
     }
 
@@ -154,7 +167,7 @@ export default class homepage extends Component{
             id: x
         }
         
-        fetch(url + '/api/viewNote', {
+        fetch(global.url + '/api/viewNote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -175,7 +188,8 @@ export default class homepage extends Component{
     }
     closeCamera = () =>{
         this.setState({
-            cameraRoll: false
+            cameraRoll: false,
+            image: []
         })
     }
 
@@ -185,7 +199,7 @@ export default class homepage extends Component{
             note: this.state.viewNote
         }
         
-        fetch(url + '/api/editNote', {
+        fetch(global.url + '/api/editNote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -200,12 +214,16 @@ export default class homepage extends Component{
  
 
   render() { 
+    const empty = <View style={{backgroundColor: 'white', flex: 1, height: 500, justifyContent: 'center', alignItems: 'center', padding: 30}}>
+        <Text style={{color: '#d8d8d8', fontSize: 20, textAlign: "center"}}>Please add some milestones to get started</Text>
+    </View>
+
     const normal = <View style={{flex: 1}}>
                         <Modal isVisible={this.state.openModal}>
                             <View style={{ flex: 1 }}>
-                                <View style = {{backgroundColor: 'white', height: '80%'}}>
+                                <View style = {{backgroundColor: 'white', height: '80%', borderRadius: 10}}>
                                 <TextInput
-                                    style={{height: 400, borderColor: 'gray', borderWidth: 1, margin: 10}}
+                                    style={{height: 430, borderWidth: 0, margin: 10, backgroundColor: "#f2f09f", borderRadius: 10}}
                                     editable = {true}
                                     multiline= {true}
                                     onChangeText={(viewNote) => this.setState({viewNote})}
@@ -221,7 +239,7 @@ export default class homepage extends Component{
                         </Modal>
                         <ScrollView>
                             <Header title='Home'/> 
-                                {this.state.isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : <FlatList data={this.state.milestoneData} renderItem={({item}) => <Container name={item} user={this.state.userId} openRoll={this.openRoll} viewNotes={this.viewNotes}/>}/>}
+                                {this.state.isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : <FlatList ListEmptyComponent={empty} data={this.state.milestoneData} renderItem={({item}) => <Container name={item} user={this.state.userId} openRoll={this.openRoll} viewNotes={this.viewNotes}/>}/>}
                                 <View style={{height: 30}} /> 
                         </ScrollView>
                         <View>
@@ -231,9 +249,11 @@ export default class homepage extends Component{
 
     const picker = <View style={styles.Main}>
                         <Header title='Home'/>
-                            <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true} assetType={'All'}/>
-                        <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
-                        <Button onPress={this.closeCamera} title={'Cancel'} color={'red'}/>
+                            <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true} assetType={'All'} selected={this.state.image}/>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 10, backgroundColor: 'white'}}>
+                            <Button onPress={this.closeCamera} title={'Cancel'} color={'red'}/>
+                            <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
+                        </View>
                     </View>; 
     
     return (

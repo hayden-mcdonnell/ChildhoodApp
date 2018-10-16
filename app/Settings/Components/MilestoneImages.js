@@ -3,8 +3,6 @@ import {View, ScrollView, Text, StyleSheet, Image} from 'react-native';
 import Fade from 'react-native-fade-in-image';
 import {SkypeIndicator} from 'react-native-indicators';
 
-var url = "http://192.168.0.199:3000";
-
 export default class container extends Component{
     constructor(props){
         super(props);
@@ -18,7 +16,7 @@ export default class container extends Component{
     }
 
     componentDidMount = () =>{
-        fetch(url + '/api/getMilestonePics', {
+        fetch(global.url + '/api/getMilestonePics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +44,7 @@ export default class container extends Component{
                             }
                         
 
-                            fetch(url + '/api/getMilestonePicsInd', {
+                            fetch(global.url + '/api/getMilestonePicsInd', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

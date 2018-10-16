@@ -6,7 +6,6 @@ import DateDiff from 'date-diff';   //Gets difference between 2 dates
 import ListItems from './ListItems';    
 import CompleteListItems from './CompleteListItems';
 
-var url = "http://192.168.0.199:3000";
 
 export default class header extends Component{
 
@@ -27,7 +26,7 @@ export default class header extends Component{
     {
         this.props.name[5] = todaysDate;    
 
-        fetch(url + '/api/complete', {
+        fetch(global.url + '/api/complete', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +85,7 @@ export default class header extends Component{
                                     <Text style={styles.finish}>Finish</Text>
                                 </View>  
                             </View>
-                            <ListItems finishPro={this.finishProgress} user={this.props.user} milestone={this.props.name.id}/> 
+                            <ListItems finishPro={this.finishProgress} user={this.props.user} milestone={this.props.name} openRoll={this.props.openRoll}/> 
                         </View>;
         
     return (

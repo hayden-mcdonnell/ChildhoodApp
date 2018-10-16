@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet, Text, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {SkypeIndicator} from 'react-native-indicators';
 
-var url = "http://192.168.0.199:3000";
-
 export default class Banner extends Component {
      constructor(props) {
         super(props);
@@ -20,7 +18,7 @@ export default class Banner extends Component {
 
       loadProfilePic = () => {
           console.log(this.props.user.email);
-            fetch(url + '/api/getProfilePic', {
+            fetch(global.url + '/api/getProfilePic', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -4,7 +4,6 @@ import {Calendar} from 'react-native-calendars';
 
 import Container from './Container';
 
-var url = "http://192.168.0.199:3000";
 
 export default class calender extends Component{
   constructor(props){
@@ -23,12 +22,16 @@ export default class calender extends Component{
 
 componentDidMount()
     {
-        fetch(url + '/api/milestones', {
+        var payload = {
+            email: this.props.user.email
+        }
+
+        fetch(global.url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(this.props.user),
+            body: JSON.stringify(payload),
             }).then((response) => response.json())
             .then((responseJson) => {
                if(responseJson.length === 0)
@@ -62,6 +65,7 @@ componentDidMount()
               console.error(error);
             });
     }
+    
 
    checkDate = (x) => {
        found = false;
@@ -93,7 +97,8 @@ componentDidMount()
     return (
         <View>
               {this.state.isLoading ? null : <Calendar monthFormat={'MMMM yyyy'} hideExtraDays={true} firstDay={1} markedDates={this.state.markedDates}  hideDayNames={true} onDayPress={(day) => {this.checkDate(day)}}/>}
-              {this.state.dateSelect ? <Container name={this.state.selectedDate} add={this.props.add} /> : null}
+              {this.state.dateSelect ? <Container name={this.state.selectedDate} add={this.props.add} viewNote={this.props.viewNote}/> : null}
+              <View style={{height: 20}}></View>
         </View>
       
     );

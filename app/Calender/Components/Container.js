@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 
-var url = "http://192.168.0.199:3000";
-
 export default class container extends Component{
     constructor(props){
         super(props);
         this.state = {
             note: ''
         }
+        console.log(this.props.name);
+    }
+
+    viewNote = () => {
+        this.props.viewNote(this.props.name.id);
     }
 
     addNote = () =>{
@@ -16,7 +19,7 @@ export default class container extends Component{
             id: this.props.name.id,
             note: this.state.note,
         }
-        fetch(url + '/api/addNote', {
+        fetch(global.url + '/api/addNote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +32,7 @@ export default class container extends Component{
       return (
         <View style={styles.container}>
             <Text style={styles.name}> {this.props.name.Name} </Text> 
-            <View style={{alignItems: 'center', paddingTop: 10}}>
+            <View style={{alignItems: 'center'}}>
                 <TextInput style={styles.inputContainers} onChangeText={(note) => this.setState({note})} value={this.state.note} clearTextOnFocus={true} placeholder={'Add Notes:'} placeholderTextColor={'#005691'} autoCapitalize={'sentences'}/>
                 <TouchableOpacity onPress={this.addNote} style={styles.inputSubmit}> 
                     <Image source={require('../../Images/Calender/Checkbox.png')} />
@@ -42,8 +45,15 @@ export default class container extends Component{
                             <Image style={styles.image} source={require('../../Images/Home/Camera.png')} />
                         </View>
                     </TouchableOpacity>
-                    
                 </View>
+                <View style={styles.navContainer}>
+                    <TouchableOpacity style={{flex: 1}} onPress={this.viewNote}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Text style={styles.text}> View Notes </Text>
+                                <Image style={styles.image} source={require('../../Images/Home/Add.png')} />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
             </View>
         </View>
       );
@@ -61,19 +71,11 @@ const styles = StyleSheet.create({
      },
      name:
      {
-         marginTop: 5,
+         marginTop: 15,
          marginLeft: 15,
-         marginBottom: 0,
          color: '#005691',
          fontWeight: 'bold',
          fontSize: 18
-     },
-     date:
-     {
-         marginTop: 0,
-         textAlign: 'center',
-         color: '#005691',
-         fontSize: 12
      },
      inputContainers: 
     {
@@ -84,7 +86,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         textAlign: 'center',
         color: '#005691',
-        marginBottom: 20
+        marginBottom: 10,
+        marginTop: 5
     },
     inputSubmit: 
     {

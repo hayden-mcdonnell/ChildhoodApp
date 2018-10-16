@@ -3,7 +3,6 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import Fade from 'react-native-fade-in-image';
 import {SkypeIndicator} from 'react-native-indicators';
 
-var url = "http://192.168.0.199:3000";
 
 export default class image extends Component{
     constructor(props){
@@ -25,7 +24,7 @@ export default class image extends Component{
             Milestone2: this.props.data.Name2
         }
 
-        fetch(url + '/api/getaMilestonePic', {
+        fetch(global.url + '/api/getaMilestonePic', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +89,7 @@ export default class image extends Component{
                 }
                 
                
-                fetch(url + '/api/getMilestonePicsInd', {
+                fetch(global.url + '/api/getMilestonePicsInd', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -109,7 +108,7 @@ export default class image extends Component{
                         }
                     })   
 
-                    fetch(url + '/api/getMilestonePicsInd', {
+                    fetch(global.url + '/api/getMilestonePicsInd', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -128,13 +127,10 @@ export default class image extends Component{
 
                             }
                         })   
-
-
             })
     }
 
   render() {
-        
      var spinner = <SkypeIndicator />
     return (
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>

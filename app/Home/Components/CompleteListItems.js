@@ -9,7 +9,7 @@ export default class navBar extends Component{
         <View style={styles.navContainer}>
             <TouchableOpacity style={{flex: 1}} onPress={() => this.props.viewNotes(this.props.milestone.id)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style={styles.text}> Add Notes </Text>
+                    <Text style={styles.text}> View Notes </Text>
                     <Image style={styles.image} source={require('../../Images/Home/Add.png')} />
                 </View>
             </TouchableOpacity>

@@ -4,8 +4,6 @@ import {TextInput, FlatList, StyleSheet, View, Text, Image, TouchableOpacity, Bu
 import Modal from "react-native-modal";
 import ImagePrinter from './MilestoneImages';
 
-var url = "http://192.168.0.199:3000";
-
 export default class Options extends Component{
 
   constructor(props) {
@@ -47,7 +45,7 @@ export default class Options extends Component{
 
       var payload = {email, current, newpw, confirm};
       
-      fetch(url + '/api/changepw', {
+      fetch(global.url + '/api/changepw', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +71,7 @@ export default class Options extends Component{
   }
 
   loadSentImages = () =>{
-    fetch(url + '/api/milestones', {
+    fetch(global.url + '/api/milestones', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -165,19 +163,6 @@ export default class Options extends Component{
          </View>
       }
 
-      else if (this.state.linkClicked == 'Videos Sent')
-      {
-          content = <View style={styles.popUpContainer}>
-          <Text style={styles.popUpContainerText}>Videos go here</Text>
-          <View>
-          <Text> </Text>
-          </View>
-          <TouchableOpacity onPress={this.closeModal}>
-          <Image source={require('../../Images/Settings/No.png')} />
-          </TouchableOpacity>
-         </View>
-      }
-
 
     return (
             
@@ -190,7 +175,7 @@ export default class Options extends Component{
               </View>
             </Modal>
             <FlatList
-            data={[{key: 'Change Password'}, {key: 'Terms'}, {key: 'Contact Us'}, {key: 'Photos Sent'}, {key: 'Videos Sent'}]}
+            data={[{key: 'Change Password'}, {key: 'Terms'}, {key: 'Contact Us'}, {key: 'Photos Sent'}]}
             renderItem={({item}) => <TouchableOpacity onPress={() => this.pressed(item.key)}><Text style={styles.item}>{item.key}</Text></TouchableOpacity>}
             />
             </View>

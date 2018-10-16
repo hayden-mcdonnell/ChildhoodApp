@@ -63,15 +63,15 @@ export default class navBar extends Component{
             <View style = {{backgroundColor: 'white'}}>
                 <Text style={styles.headText}>Change Time</Text>
                 <View style={{justifyContent: 'center', height: '70%', backgroundColor: 'white'}}>
-                    <Picker user={this.props.user} milestone={this.props.milestone} close={this.changeModel} />
+                    <Picker user={this.props.user} milestone={this.props.milestone.id} close={this.changeModel} />
                 </View>
             </View>
         </Modal>
         <View style={styles.navContainer}>
-            <TouchableOpacity style={{flex: 1}}> 
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.props.openRoll(this.props.milestone.Name)}> 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style={styles.text}> View Example </Text>
-                    <Image style={styles.image} source={require('../../Images/Home/View.png')} />
+                    <Text style={styles.text}> Add Video/Picture </Text>
+                    <Image style={styles.image} source={require('../../Images/Home/Camera.png')} />
                 </View>
             </TouchableOpacity>
         </View>
@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
     },
     image:
     {
+        height: 20,
+        width: 24,
         marginRight: 15
     },
     headText:
