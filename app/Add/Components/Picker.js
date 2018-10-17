@@ -34,7 +34,7 @@ export default class picker extends Component{
     return (
     <View>
         <View style={styles.dateBoxes}>
-              <Text style={styles.text}> Start Date: </Text>
+              <Text style={styles.text}> Track Start Date: </Text>
               <DatePicker
                 style={{width: 200}}
                 date={this.state.sDate}
@@ -66,7 +66,7 @@ export default class picker extends Component{
         </View>
 
         <View style={styles.dateBoxes}>
-              <Text style={styles.text}> End Date:{'\u00A0\u00A0'} </Text>
+              <Text style={styles.text}> Track End Date:{'\u00A0\u00A0'} </Text>
               <DatePicker
                 style={{width: 200}}
                 date={this.state.eDate}
