@@ -7,7 +7,9 @@ import History from './app/History/History';
 import Add from './app/Add/Add';
 import Settings from './app/Settings/Settings';
 import Navigation from './app/GlobalComponents/Navigation';
-global.url = "http://172.20.10.2:3000"; //GLOBAL URL
+global.url = "http://192.168.0.199:3000"; //GLOBAL URL
+
+console.disableYellowBox = true;
 
 import { createSwitchNavigator } from 'react-navigation';
 

@@ -139,7 +139,7 @@ export default class inputfields extends Component {
     return (
         <View style={styles.viewContainer}>
             <View style={styles.dateBoxes}>
-                <Text style={styles.text}> Milestone: </Text>
+                <Text style={styles.text}> Milestone:            </Text>
                 <TouchableOpacity style={styles.box} onPress={this.openMilestonePicker} >
                     <Text textAlign="center">{this.state.milestone}</Text>
                 </TouchableOpacity>

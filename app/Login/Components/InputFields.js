@@ -8,8 +8,8 @@ export default class inputfields extends Component{
     {
         super(props);
         this.state = { 
-            email: 'hayden.mcdonnell@gmail.com',
-            password: 'dab',   
+            email: '',
+            password: '',   
             error: false,   
             loading: false,
             showPassword: true

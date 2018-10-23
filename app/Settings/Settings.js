@@ -106,8 +106,8 @@ export default class homepage extends Component{
             const picker = <View style={styles.Main}>
                                <CameraRollPicker callback={this.getSelectedImages} selectSingleItem={true} selected={this.state.image}/>
                                <View style={{flexDirection: 'row', justifyContent: 'center', paddingBottom: 10, backgroundColor: 'white'}}>
+                               <Button onPress={this.closeRoll} title={'Cancel'} color={'red'}/>
                                 <Button onPress={this.sendPhoto} title={'Confirm'} color={'green'}/>
-                                <Button onPress={this.closeRoll} title={'Cancel'} color={'red'}/>
                                </View>
                             </View>;
 
