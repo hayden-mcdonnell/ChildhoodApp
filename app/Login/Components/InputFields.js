@@ -19,41 +19,48 @@ export default class inputfields extends Component{
     authenticate = () => {
         if (this.state.showPassword)
         {
-            this.setState({ 
-                loading: true
-            });
-    
-            var email = this.state.email;   
-            var passWord = this.state.password;
-            
-            var payload = {email, passWord}; 
-            
-            fetch(global.url + '/api/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),  
-            }).then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.Confirmation == "Success")  
-                {
-                    this.setState({
-                        loading: false 
-                    });
-                    this.props.login(responseJson.Data);  
-                }
-                else   
-                {
-                    this.setState({
-                        error: true,
-                        loading: false
-                    });
-                }
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+            if(this.state.email === '' || this.state.password === ''){
+                this.setState({
+                    error: true
+                });
+            }
+            else{
+                this.setState({ 
+                    loading: true
+                });
+        
+                var email = this.state.email;   
+                var passWord = this.state.password;
+                
+                var payload = {email, passWord}; 
+                
+                fetch(global.url + '/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),  
+                }).then((response) => response.json())
+                .then((responseJson) => {
+                    if (responseJson.Confirmation == "Success")  
+                    {
+                        this.setState({
+                            loading: false 
+                        });
+                        this.props.login(responseJson.Data);  
+                    }
+                    else   
+                    {
+                        this.setState({
+                            error: true,
+                            loading: false
+                        });
+                    }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            }
         }
 
         else{

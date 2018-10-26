@@ -4,7 +4,7 @@ import {StyleSheet, View, TouchableOpacity, Text, FlatList} from 'react-native';
 import Picker1 from './Picker';
 import Picker2 from 'react-native-simple-picker';
 
-const options = ['Rolling 1', 'Rolling 2', 'Sitting 1', 'Sitting 2', 'Sitting 3', 'Creeping', 'Scooting', 'Four point kneeling', 'Crawling', 'Supported standing', 'Pulling up', 'Cruising', 'Stands without support', 'First steps', 'Walking alone'];
+const options = ['Rolling1', 'Rolling2', 'Sitting1', 'Sitting2', 'Sitting3', 'Creeping', 'Scooting', 'FourPointKneeling', 'Crawling', 'SupportedStanding', 'PullingUp', 'Cruising', 'StandsWithoutSupport', 'FirstSteps', 'WalkingAlone'];
 
 export default class inputfields extends Component {
     constructor(props){
@@ -88,19 +88,19 @@ export default class inputfields extends Component {
       }
 
       getDescription = (x) => {
-          if (x === "Rolling 1"){
+          if (x === "Rolling1"){
               return  "Rolls from stomach to back";
           }
-          else if (x === "Rolling 2"){
+          else if (x === "Rolling2"){
               return "Rolls from back to stomach";
           }
-          else if (x === "Sitting 1"){
+          else if (x === "Sitting1"){
              return "Sits supported by own arms";
           }
-          else if (x === "Sitting 2"){
+          else if (x === "Sitting2"){
               return "Sits up briefly without support of own arms";
           }
-          else if (x === "Sitting 3"){
+          else if (x === "Sitting3"){
               return "Sustained sitting up without support of own arms";
           }
           else if (x === "Creeping"){
@@ -109,28 +109,28 @@ export default class inputfields extends Component {
           else if (x === "Scooting"){
               return "Crawling on one leg and dragging the other";
           }
-          else if (x === "Four point kneeling"){
+          else if (x === "FourPointKneeling"){
               return "Gets into a crawling position on hands and knees";
           }
           else if (x === "Crawling"){
               return "Travels one metre on hands and knee";
           }
-          else if (x === "Supported standing"){
+          else if (x === "SupportedStanding"){
               return "Supports whole weight when on legs and held upright";
           }
-          else if (x === "Pulling up"){
+          else if (x === "PullingUp"){
               return "Pulls self up on furniture to stand";
           }
           else if (x === "Cruising"){
               return "Moves around room holding on to furniture";
           }
-          else if (x === "Stands without support"){
+          else if (x === "StandsWithoutSupport"){
               return "Stands alone momentarily";
           }
-          else if (x === "First steps"){
+          else if (x === "FirstSteps"){
               return "Moves a few short steps independently";
           }
-          else if (x === "Walking alone"){
+          else if (x === "WalkingAlone"){
               return "Travels one metre walking independently";
           }
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image, Alert} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image, Button} from 'react-native';
 
 import DatePicker from 'react-native-datepicker';
 
@@ -97,10 +97,7 @@ export default class picker extends Component{
         <TouchableOpacity style={styles.inputSubmit} onPress={this.uploadData}>
             <Image source={require('../../Images/Calender/Checkbox.png')} />
         </TouchableOpacity>
-        <TouchableOpacity  onPress={() => this.props.close()}>
-            <Text> Close Modal </Text>
-        </TouchableOpacity>
-
+            <Button style={{paddingTop: 20}} onPress={() => this.props.close()} title={'Cancel'} color={'red'}/>
             </View>
     </View>
     )

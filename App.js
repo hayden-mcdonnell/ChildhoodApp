@@ -7,7 +7,7 @@ import History from './app/History/History';
 import Add from './app/Add/Add';
 import Settings from './app/Settings/Settings';
 import Navigation from './app/GlobalComponents/Navigation';
-global.url = "http://192.168.0.199:3000"; //GLOBAL URL
+global.url = "http://url:3000"; //GLOBAL URL
 
 console.disableYellowBox = true;
 
